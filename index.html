@@ -24,10 +24,7 @@
             display: flex;
             justify-content: center;
             padding: 12px;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(30, 30, 30, 0.3) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(20, 20, 20, 0.3) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 0%, rgba(40, 40, 40, 0.1) 0%, transparent 50%);
+            background-image: radial-gradient(ellipse at 20% 50%, rgba(30, 30, 30, 0.3) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(20, 20, 20, 0.3) 0%, transparent 60%);
             background-attachment: fixed;
         }
 
@@ -53,7 +50,7 @@
            ============================================ */
         .header {
             text-align: center;
-            padding: 24px 0 18px;
+            padding: 20px 0 16px;
             position: relative;
         }
 
@@ -68,7 +65,7 @@
         }
 
         .logo {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
             background: linear-gradient(135deg, #f0f0f0 0%, #888888 50%, #444444 100%);
@@ -79,7 +76,7 @@
         }
 
         .logo-sub {
-            font-size: 13px;
+            font-size: 11px;
             color: #333;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -90,13 +87,12 @@
         .header-badge {
             display: inline-block;
             background: rgba(255, 255, 255, 0.03);
-            padding: 4px 16px;
+            padding: 4px 14px;
             border-radius: 20px;
-            font-size: 10px;
+            font-size: 9px;
             color: #444;
-            margin-top: 8px;
+            margin-top: 6px;
             border: 1px solid rgba(255, 255, 255, 0.04);
-            letter-spacing: 0.5px;
         }
 
         /* ============================================
@@ -104,30 +100,26 @@
            ============================================ */
         .user-card {
             background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 14px 18px;
-            margin: 16px 0 18px;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin: 14px 0 16px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             transition: all 0.3s ease;
         }
 
-        .user-card:hover {
-            border-color: rgba(255, 255, 255, 0.07);
-        }
-
         .user-avatar {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: #666;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -141,21 +133,21 @@
 
         .user-name {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             color: #e8e8e8;
         }
 
         .user-id {
-            font-size: 11px;
+            font-size: 10px;
             color: #333;
             font-family: monospace;
         }
 
         .user-role {
-            font-size: 9px;
+            font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            padding: 3px 12px;
+            padding: 2px 10px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.03);
             color: #444;
@@ -174,25 +166,24 @@
            ============================================ */
         .spins-bar {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             background: rgba(255, 255, 255, 0.02);
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin-bottom: 18px;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .spin-item {
             flex: 1;
             text-align: center;
-            padding: 4px 0;
+            padding: 2px 0;
         }
 
         .spin-count {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: #e8e8e8;
-            transition: all 0.3s ease;
         }
 
         .spin-count.free {
@@ -208,28 +199,12 @@
             background-clip: text;
         }
 
-        .spin-count.pop {
-            animation: pop 0.3s ease;
-        }
-
-        @keyframes pop {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.3);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
         .spin-label {
-            font-size: 9px;
+            font-size: 8px;
             text-transform: uppercase;
             color: #333;
             letter-spacing: 0.5px;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         .spin-divider {
@@ -244,40 +219,32 @@
             display: flex;
             gap: 4px;
             background: rgba(255, 255, 255, 0.02);
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 4px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.04);
+            overflow-x: auto;
         }
 
         .tab-btn {
             flex: 1;
-            padding: 10px 0;
+            min-width: 60px;
+            padding: 8px 6px;
             border: none;
-            border-radius: 11px;
+            border-radius: 10px;
             background: transparent;
             color: #444;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
+            white-space: nowrap;
         }
 
         .tab-btn.active {
             background: rgba(255, 255, 255, 0.04);
             color: #e8e8e8;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 30%;
-            right: 30%;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.05);
         }
 
         .tab-btn:hover:not(.active) {
@@ -305,17 +272,17 @@
         }
 
         /* ============================================
-           ТОВАРЫ
+           ТОВАРЫ (НОВЫЙ ДИЗАЙН)
            ============================================ */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .section-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: #444;
             text-transform: uppercase;
@@ -323,7 +290,7 @@
         }
 
         .section-count {
-            font-size: 11px;
+            font-size: 10px;
             color: #222;
             background: rgba(255, 255, 255, 0.02);
             padding: 2px 10px;
@@ -343,28 +310,11 @@
             padding: 14px 16px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
             transition: all 0.25s ease;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
-        }
-
-        .product-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.01), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .product-item:hover::before {
-            opacity: 1;
         }
 
         .product-item:hover {
@@ -383,23 +333,21 @@
             position: absolute;
             top: 6px;
             right: 10px;
-            font-size: 12px;
+            font-size: 11px;
             color: #555;
         }
 
-        .product-left {
+        .product-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .product-emoji {
-            font-size: 22px;
-            flex-shrink: 0;
-            width: 36px;
-            text-align: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .product-info {
@@ -409,30 +357,36 @@
 
         .product-name {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             color: #e8e8e8;
         }
 
         .product-desc {
             font-size: 11px;
             color: #333;
-            margin-top: 1px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-top: 2px;
+            line-height: 1.3;
         }
 
         .product-price {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: #888;
             flex-shrink: 0;
-            margin-left: 12px;
+            text-align: right;
         }
 
         .product-price .currency {
             font-size: 11px;
             color: #444;
+        }
+
+        .product-price .old-price {
+            font-size: 11px;
+            color: #333;
+            text-decoration: line-through;
+            font-weight: 400;
+            display: block;
         }
 
         .empty-state {
@@ -442,8 +396,8 @@
         }
 
         .empty-state .icon {
-            font-size: 48px;
-            margin-bottom: 12px;
+            font-size: 40px;
+            margin-bottom: 10px;
             opacity: 0.5;
         }
 
@@ -453,7 +407,7 @@
         }
 
         .empty-state .sub {
-            font-size: 12px;
+            font-size: 11px;
             color: #222;
             margin-top: 4px;
         }
@@ -463,14 +417,14 @@
            ============================================ */
         .btn {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: none;
-            border-radius: 14px;
-            font-size: 15px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 12px;
+            margin-top: 10px;
             position: relative;
             overflow: hidden;
         }
@@ -505,7 +459,6 @@
         .btn-primary:disabled {
             opacity: 0.2;
             cursor: not-allowed;
-            transform: none !important;
         }
 
         .btn-secondary {
@@ -543,11 +496,11 @@
         }
 
         .btn-sm {
-            padding: 6px 12px;
-            font-size: 11px;
+            padding: 5px 10px;
+            font-size: 10px;
             width: auto;
             margin-top: 0;
-            border-radius: 10px;
+            border-radius: 8px;
         }
 
         /* ============================================
@@ -556,24 +509,24 @@
         .admin-panel {
             background: rgba(255, 255, 255, 0.02);
             border-radius: 14px;
-            padding: 16px;
+            padding: 14px;
             border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .admin-panel .panel-title {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #444;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .admin-panel .admin-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
@@ -582,45 +535,25 @@
         }
 
         .admin-panel .admin-label {
-            font-size: 13px;
+            font-size: 12px;
             color: #555;
         }
 
         .admin-panel .admin-value {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             color: #e8e8e8;
         }
 
-        .admin-panel .admin-value .id {
-            color: #333;
-            font-family: monospace;
-            font-size: 11px;
-        }
-
-        .admin-panel .admin-actions {
-            display: flex;
-            gap: 6px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .admin-panel .admin-actions .btn {
-            flex: 1;
-            min-width: 60px;
-            padding: 8px;
-            font-size: 11px;
-        }
-
         .admin-input {
             width: 100%;
-            padding: 10px 14px;
+            padding: 8px 12px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 10px;
             color: #e8e8e8;
-            font-size: 13px;
-            margin-bottom: 8px;
+            font-size: 12px;
+            margin-bottom: 6px;
             font-family: inherit;
             transition: border-color 0.2s ease;
         }
@@ -637,22 +570,102 @@
         .admin-input-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .admin-input-group .admin-input:last-child {
-            grid-column: 1 / -1;
+        /* ============================================
+           ИСТОРИЯ ПОКУПОК
+           ============================================ */
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 12px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-user {
+            color: #888;
+        }
+
+        .history-product {
+            color: #e8e8e8;
+            font-weight: 500;
+        }
+
+        .history-price {
+            color: #666;
+        }
+
+        .history-date {
+            font-size: 10px;
+            color: #333;
+        }
+
+        /* ============================================
+           НАСТРОЙКИ
+           ============================================ */
+        .settings-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 10px;
+        }
+
+        .settings-card .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .settings-card .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-card .setting-label {
+            font-size: 12px;
+            color: #555;
+        }
+
+        .settings-card .setting-value {
+            font-size: 12px;
+            color: #888;
+            font-family: monospace;
+        }
+
+        .settings-card .setting-value .copy-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: #555;
+            padding: 2px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+            margin-left: 6px;
+        }
+
+        .settings-card .setting-value .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
         }
 
         /* ============================================
            СТАТУСЫ
            ============================================ */
         .status {
-            margin-top: 12px;
-            padding: 10px 14px;
-            border-radius: 12px;
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
             display: none;
             border: 1px solid transparent;
             animation: fadeSlide 0.3s ease;
@@ -720,9 +733,9 @@
 
         .modal {
             background: #111;
-            border-radius: 20px;
-            padding: 24px;
-            max-width: 380px;
+            border-radius: 18px;
+            padding: 20px;
+            max-width: 360px;
             width: 100%;
             border: 1px solid rgba(255, 255, 255, 0.06);
             max-height: 80vh;
@@ -742,10 +755,10 @@
         }
 
         .modal-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 600;
             color: #e8e8e8;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .modal-close {
@@ -755,7 +768,6 @@
             color: #333;
             font-size: 18px;
             cursor: pointer;
-            transition: color 0.2s;
         }
 
         .modal-close:hover {
@@ -764,20 +776,20 @@
 
         .modal-body {
             color: #555;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.6;
         }
 
         .modal-actions {
             display: flex;
             gap: 8px;
-            margin-top: 16px;
+            margin-top: 14px;
         }
 
         .modal-actions .btn {
             flex: 1;
-            padding: 12px;
-            font-size: 14px;
+            padding: 10px;
+            font-size: 13px;
             margin-top: 0;
         }
 
@@ -786,26 +798,16 @@
            ============================================ */
         .footer {
             text-align: center;
-            padding: 24px 0 8px;
-            font-size: 10px;
+            padding: 20px 0 8px;
+            font-size: 9px;
             color: #1a1a1a;
             border-top: 1px solid rgba(255, 255, 255, 0.02);
-            margin-top: 20px;
-            letter-spacing: 0.3px;
-        }
-
-        .footer a {
-            color: #222;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            color: #333;
+            margin-top: 16px;
         }
 
         .footer .dot {
             color: #1a1a1a;
-            margin: 0 6px;
+            margin: 0 4px;
         }
 
         /* ============================================
@@ -821,35 +823,23 @@
             align-items: center;
         }
 
-        .gap-8 {
-            gap: 8px;
-        }
         .mt-8 {
             margin-top: 8px;
-        }
-        .mt-12 {
-            margin-top: 12px;
         }
         .mb-8 {
             margin-bottom: 8px;
         }
-        .mb-12 {
-            margin-bottom: 12px;
-        }
-
         .text-muted {
             color: #333;
-            font-size: 12px;
+            font-size: 11px;
         }
-
         .text-center {
             text-align: center;
         }
-
         .divider {
             height: 1px;
             background: rgba(255, 255, 255, 0.03);
-            margin: 14px 0;
+            margin: 12px 0;
         }
 
         /* ============================================
@@ -857,7 +847,7 @@
            ============================================ */
         @media (max-width: 380px) {
             .product-item {
-                padding: 12px 14px;
+                padding: 10px 12px;
             }
             .product-name {
                 font-size: 13px;
@@ -866,22 +856,27 @@
                 font-size: 14px;
             }
             .spins-bar {
-                padding: 10px 12px;
+                padding: 8px 10px;
             }
             .spin-count {
-                font-size: 18px;
+                font-size: 16px;
             }
             .admin-input-group {
                 grid-template-columns: 1fr;
             }
             .header .logo {
-                font-size: 26px;
+                font-size: 24px;
+            }
+            .tab-btn {
+                font-size: 10px;
+                min-width: 50px;
+                padding: 6px 4px;
             }
         }
 
         @media (min-width: 600px) {
             body {
-                padding: 24px;
+                padding: 20px;
             }
             .container {
                 max-width: 480px;
@@ -897,7 +892,7 @@
         ========================================== -->
         <header class="header">
             <div class="logo">Genie<span style="color:#333;">Store</span></div>
-            <div class="logo-sub">✦ премиум контент ✦</div>
+            <div class="logo-sub">✦ детское питание ✦</div>
             <div class="header-badge">⚡ работает</div>
         </header>
 
@@ -939,6 +934,8 @@
         <div class="tabs">
             <button class="tab-btn active" data-tab="shop">🛍 Магазин</button>
             <button class="tab-btn" data-tab="admin" id="adminTabBtn" style="display:none;">⚙️ Админ</button>
+            <button class="tab-btn" data-tab="history" id="historyTabBtn" style="display:none;">📜 История</button>
+            <button class="tab-btn" data-tab="settings">⚙️ Настройки</button>
         </div>
 
         <!-- ==========================================
@@ -966,9 +963,7 @@
             <div class="admin-panel">
                 <div class="panel-title">⚙️ управление паками</div>
 
-                <div id="adminPacksList">
-                    <!-- Загружается из JS -->
-                </div>
+                <div id="adminPacksList"></div>
 
                 <div class="divider"></div>
 
@@ -999,7 +994,67 @@
 
                 <div class="admin-actions">
                     <button class="btn btn-secondary btn-sm" id="refreshAdminBtn">🔄 обновить</button>
-                    <button class="btn btn-danger btn-sm" id="resetPacksBtn" style="display:none;">🗑️ сброс</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+        ВКЛАДКА: ИСТОРИЯ ПОКУПОК
+        ========================================== -->
+        <div class="tab-content" id="tab-history">
+            <div class="admin-panel">
+                <div class="panel-title">📜 история покупок</div>
+                <div id="historyList">
+                    <div class="text-muted text-center" style="padding:20px 0;">История пуста</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+        ВКЛАДКА: НАСТРОЙКИ
+        ========================================== -->
+        <div class="tab-content" id="tab-settings">
+            <div class="settings-card">
+                <div class="panel-title" style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">💳 реквизиты оплаты</div>
+                <div class="setting-row">
+                    <span class="setting-label">Карта СБП</span>
+                    <span class="setting-value">
+                        2202 2069 1601 7887
+                        <button class="copy-btn" onclick="copyText('2202206916017887')">📋</button>
+                    </span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Получатель</span>
+                    <span class="setting-value">Genie Store</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Назначение</span>
+                    <span class="setting-value">Оплата товара</span>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <div class="panel-title" style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">👥 администраторы</div>
+                <div id="adminsList"></div>
+            </div>
+
+            <div class="settings-card">
+                <div class="panel-title" style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">💾 база данных</div>
+                <div class="setting-row">
+                    <span class="setting-label">Статус</span>
+                    <span class="setting-value" style="color:#55aa55;">✅ активна</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Паков</span>
+                    <span class="setting-value" id="dbPacksCount">0</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Покупок</span>
+                    <span class="setting-value" id="dbOrdersCount">0</span>
+                </div>
+                <div class="admin-actions" style="margin-top:10px;">
+                    <button class="btn btn-secondary btn-sm" onclick="exportData()">📤 Экспорт</button>
+                    <button class="btn btn-danger btn-sm" onclick="resetDB()">🗑️ Сброс</button>
                 </div>
             </div>
         </div>
@@ -1010,7 +1065,7 @@
         <div class="footer">
             <span>© 2026 Genie Store</span>
             <span class="dot">·</span>
-            <span>v2.5</span>
+            <span>v3.0</span>
             <span class="dot">·</span>
             <span>⚡ Telegram</span>
         </div>
@@ -1039,39 +1094,25 @@
             // TELEGRAM
             // ============================================
             const tg = window.Telegram?.WebApp;
-            let tgReady = false;
-
-            try {
-                if (tg) {
-                    tg.ready();
-                    tg.expand();
-                    tgReady = true;
-                    console.log('✅ Telegram WebApp инициализирован');
-                } else {
-                    console.warn('⚠️ Telegram WebApp не найден');
-                }
-            } catch (e) {
-                console.warn('⚠️ Ошибка инициализации Telegram:', e);
-            }
+            try { if (tg) { tg.ready();
+                    tg.expand(); } } catch (e) {}
 
             // ============================================
-            // ПОЛЬЗОВАТЕЛЬ
+            // ПОЛЬЗОВАТЕЛЬ И АДМИНЫ
             // ============================================
             const user = tg?.initDataUnsafe?.user || null;
             let userId = user?.id || 'Неизвестно';
             let userName = user?.first_name || user?.username || 'Гость';
 
-            // ============================================
-            // АДМИНЫ
-            // ============================================
-            const ADMIN_IDS = [8933996666, 8477554545];
+            // СПИСОК АДМИНОВ (ТОЛЬКО ЭТИ ID МОГУТ РЕДАКТИРОВАТЬ)
+            const ADMIN_IDS = [8933996666, 8477554545, 123456789];
             const isAdmin = ADMIN_IDS.includes(Number(userId));
 
             // ============================================
             // DOM ЭЛЕМЕНТЫ
             // ============================================
-            const $ = (sel) => document.querySelector(sel);
-            const $$ = (sel) => document.querySelectorAll(sel);
+            const $ = (s) => document.querySelector(s);
+            const $$ = (s) => document.querySelectorAll(s);
 
             const els = {
                 userName: $('#userName'),
@@ -1096,8 +1137,12 @@
                 packContent: $('#packContent'),
                 addPackBtn: $('#addPackBtn'),
                 refreshAdminBtn: $('#refreshAdminBtn'),
-                resetPacksBtn: $('#resetPacksBtn'),
                 adminTabBtn: $('#adminTabBtn'),
+                historyTabBtn: $('#historyTabBtn'),
+                historyList: $('#historyList'),
+                adminsList: $('#adminsList'),
+                dbPacksCount: $('#dbPacksCount'),
+                dbOrdersCount: $('#dbOrdersCount'),
                 modalOverlay: $('#modalOverlay'),
                 modalTitle: $('#modalTitle'),
                 modalBody: $('#modalBody'),
@@ -1107,7 +1152,7 @@
             };
 
             // ============================================
-            // БАЗА ДАННЫХ (Database)
+            // БАЗА ДАННЫХ
             // ============================================
             class Database {
                 constructor(name = 'genie_store_db') {
@@ -1121,14 +1166,11 @@
                         const saved = localStorage.getItem(this.dbName);
                         if (saved) {
                             this.data = JSON.parse(saved);
-                            console.log('📂 База данных загружена');
                         } else {
                             this.data = this.getDefaultData();
                             this.save();
-                            console.log('📂 Создана новая база данных');
                         }
                     } catch (e) {
-                        console.error('Ошибка загрузки БД:', e);
                         this.data = this.getDefaultData();
                         this.save();
                     }
@@ -1138,52 +1180,38 @@
                 save() {
                     try {
                         localStorage.setItem(this.dbName, JSON.stringify(this.data));
-                        console.log('💾 База данных сохранена');
                         return true;
-                    } catch (e) {
-                        console.error('Ошибка сохранения БД:', e);
-                        return false;
-                    }
+                    } catch (e) { return false; }
                 }
 
                 getDefaultData() {
                     return {
                         packs: [
-                            { id: 1, name: '🎮 Премиум доступ', price: 499, desc: 'Все функции платформы', content: 'https://example.com/premium', emoji: '🎮' },
-                            { id: 2, name: '📚 Видео-курс', price: 299, desc: '10 уроков от экспертов', content: 'https://example.com/course', emoji: '📚' },
-                            { id: 3, name: '🎰 10 спинов', price: 50, desc: 'Для просмотра галереи', content: 'spins', emoji: '🎰' },
+                            { id: 1, name: '🍼 Пробник', price: 250, desc: '13 ГБ детского питания. Отличный вариант для знакомства с продукцией.', content: 'https://t.me/...', emoji: '🍼' },
+                            { id: 2, name: '🍱 4 ТБ детского', price: 499, desc: 'Большой набор детского питания высокого качества. 4 ТБ разнообразного контента.', content: 'https://t.me/...', emoji: '🍱' },
                         ],
                         spins: { free: 10, paid: 0 },
-                        stats: { users: 1, revenue: 0 },
-                        nextPackId: 4,
-                        version: '2.5'
+                        stats: { users: 0, revenue: 0 },
+                        history: [],
+                        nextPackId: 3,
+                        admins: [8933996666, 8477554545, 123456789],
+                        version: '3.0'
                     };
                 }
 
-                // === Методы для работы с паками ===
-                getPacks() {
-                    return this.data.packs || [];
-                }
+                getPacks() { return this.data.packs || []; }
+                getSpins() { return this.data.spins || { free: 10, paid: 0 }; }
+                getStats() { return this.data.stats || { users: 0, revenue: 0 }; }
+                getHistory() { return this.data.history || []; }
+                getAdmins() { return this.data.admins || []; }
 
                 addPack(pack) {
-                    if (!pack.id) {
-                        pack.id = this.data.nextPackId || 1;
-                        this.data.nextPackId = pack.id + 1;
-                    }
-                    if (!pack.emoji) {
-                        pack.emoji = pack.name.match(/^.{1,2}/)?.[0] || '📦';
-                    }
+                    if (!pack.id) { pack.id = this.data.nextPackId || 1;
+                        this.data.nextPackId = pack.id + 1; }
+                    if (!pack.emoji) { pack.emoji = pack.name.match(/^.{1,2}/)?.[0] || '📦'; }
                     this.data.packs.push(pack);
                     this.save();
                     return pack;
-                }
-
-                updatePack(id, updates) {
-                    const index = this.data.packs.findIndex(p => p.id === id);
-                    if (index === -1) return null;
-                    this.data.packs[index] = { ...this.data.packs[index], ...updates };
-                    this.save();
-                    return this.data.packs[index];
                 }
 
                 deletePack(id) {
@@ -1192,13 +1220,26 @@
                     return true;
                 }
 
-                getPack(id) {
-                    return this.data.packs.find(p => p.id === id) || null;
-                }
-
-                // === Методы для работы со спинами ===
-                getSpins() {
-                    return this.data.spins || { free: 10, paid: 0 };
+                addOrder(userId, userName, productName, price) {
+                    const order = {
+                        id: Date.now(),
+                        user_id: userId,
+                        username: userName,
+                        product: productName,
+                        price: price,
+                        date: new Date().toLocaleString('ru-RU'),
+                        timestamp: Date.now()
+                    };
+                    this.data.history.push(order);
+                    this.data.stats.revenue = (this.data.stats.revenue || 0) + price;
+                    this.data.stats.users = this.data.stats.users || 0;
+                    // Увеличиваем счетчик пользователей если новый
+                    const existing = this.data.history.filter(h => h.user_id === userId);
+                    if (existing.length <= 1) {
+                        this.data.stats.users = (this.data.stats.users || 0) + 1;
+                    }
+                    this.save();
+                    return order;
                 }
 
                 updateSpins(free, paid) {
@@ -1208,84 +1249,25 @@
                     return this.data.spins;
                 }
 
-                addFreeSpins(count) {
-                    this.data.spins.free += count;
+                reset() {
+                    this.data = this.getDefaultData();
                     this.save();
-                    return this.data.spins;
-                }
-
-                addPaidSpins(count) {
-                    this.data.spins.paid += count;
-                    this.save();
-                    return this.data.spins;
-                }
-
-                // === Методы для статистики ===
-                getStats() {
-                    return this.data.stats || { users: 0, revenue: 0 };
-                }
-
-                updateStats(updates) {
-                    this.data.stats = { ...this.data.stats, ...updates };
-                    this.save();
-                    return this.data.stats;
-                }
-
-                // === Резервное копирование ===
-                backup() {
-                    const backup = JSON.stringify(this.data);
-                    localStorage.setItem(`${this.dbName}_backup_${Date.now()}`, backup);
-                    console.log('💾 Создана резервная копия БД');
-                    return backup;
-                }
-
-                restore(backupData) {
-                    try {
-                        this.data = JSON.parse(backupData);
-                        this.save();
-                        console.log('🔄 База данных восстановлена');
-                        return true;
-                    } catch (e) {
-                        console.error('Ошибка восстановления БД:', e);
-                        return false;
-                    }
+                    return this.data;
                 }
 
                 exportData() {
                     return JSON.stringify(this.data, null, 2);
                 }
-
-                importData(jsonData) {
-                    try {
-                        const data = JSON.parse(jsonData);
-                        this.data = data;
-                        this.save();
-                        console.log('📥 Данные импортированы');
-                        return true;
-                    } catch (e) {
-                        console.error('Ошибка импорта:', e);
-                        return false;
-                    }
-                }
-
-                reset() {
-                    this.data = this.getDefaultData();
-                    this.save();
-                    console.log('🔄 База данных сброшена');
-                    return this.data;
-                }
             }
 
             // ============================================
-            // ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ
+            // ИНИЦИАЛИЗАЦИЯ БД
             // ============================================
-            const db = new Database('genie_store_db');
-            const data = db.data;
-
-            // Синхронизируем переменные с БД
+            const db = new Database();
             let packs = db.getPacks();
             let spins = db.getSpins();
-            let nextPackId = data.nextPackId || packs.reduce((max, p) => Math.max(max, p.id), 0) + 1;
+            let selectedProduct = null;
+            let statusTimeout = null;
 
             // ============================================
             // ОТОБРАЖЕНИЕ
@@ -1296,24 +1278,17 @@
                 els.productsCount.textContent = packsList.length;
 
                 if (!packsList.length) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="icon">📦</div>
-                            <div class="title">Товаров пока нет</div>
-                            <div class="sub">Загляните позже</div>
-                        </div>
-                    `;
+                    container.innerHTML =
+                        `<div class="empty-state"><div class="icon">📦</div><div class="title">Товаров пока нет</div><div class="sub">Загляните позже</div></div>`;
                     return;
                 }
 
                 container.innerHTML = packsList.map(p => `
                     <div class="product-item" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">
-                        <div class="product-left">
-                            <div class="product-emoji">${p.emoji || '📦'}</div>
-                            <div class="product-info">
-                                <div class="product-name">${escapeHtml(p.name)}</div>
-                                <div class="product-desc">${escapeHtml(p.desc || 'Без описания')}</div>
-                            </div>
+                        <div class="product-icon">${p.emoji || '📦'}</div>
+                        <div class="product-info">
+                            <div class="product-name">${escapeHtml(p.name)}</div>
+                            <div class="product-desc">${escapeHtml(p.desc || 'Без описания')}</div>
                         </div>
                         <div class="product-price">${p.price} <span class="currency">₽</span></div>
                     </div>
@@ -1332,11 +1307,8 @@
                 const packsList = db.getPacks();
 
                 if (!packsList.length) {
-                    container.innerHTML = `
-                        <div style="text-align:center;padding:12px 0;color:#333;font-size:13px;">
-                            Паков нет. Добавьте первый!
-                        </div>
-                    `;
+                    container.innerHTML =
+                        `<div style="text-align:center;padding:10px 0;color:#333;font-size:12px;">Паков нет. Добавьте первый!</div>`;
                     return;
                 }
 
@@ -1344,42 +1316,79 @@
                     <div class="admin-row">
                         <div>
                             <div class="admin-label" style="font-weight:500;color:#e8e8e8;">${escapeHtml(p.name)}</div>
-                            <div class="admin-value" style="font-size:12px;color:#333;">
-                                ${p.price} ₽ · ${escapeHtml(p.desc || 'Без описания')}
-                                <span class="id">#${p.id}</span>
-                            </div>
+                            <div class="admin-value" style="font-size:11px;color:#333;">${p.price} ₽ · ${escapeHtml(p.desc || 'Без описания')} <span class="id">#${p.id}</span></div>
                         </div>
-                        <div style="display:flex;gap:4px;">
-                            <button class="btn btn-danger btn-sm admin-delete-btn" data-id="${p.id}" style="padding:4px 10px;font-size:10px;">✕</button>
-                        </div>
+                        ${isAdmin ? `<button class="btn btn-danger btn-sm admin-delete-btn" data-id="${p.id}">✕</button>` : ''}
                     </div>
                 `).join('');
 
-                container.querySelectorAll('.admin-delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const id = parseInt(this.dataset.id);
-                        const pack = db.getPack(id);
-                        showModal(
-                            'Удалить пак?',
-                            `Вы уверены, что хотите удалить "<strong>${escapeHtml(pack?.name || '')}</strong>"?`,
-                            () => {
+                if (isAdmin) {
+                    container.querySelectorAll('.admin-delete-btn').forEach(btn => {
+                        btn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            const id = parseInt(this.dataset.id);
+                            const pack = db.getPacks().find(p => p.id === id);
+                            showModal('Удалить пак?', `Удалить "<strong>${escapeHtml(pack?.name || '')}</strong>"?`, () => {
                                 db.deletePack(id);
-                                packs = db.getPacks();
                                 renderAll();
                                 showStatus('✅ Пак удален', 'success');
-                            }
-                        );
+                            });
+                        });
                     });
-                });
+                }
+            }
+
+            function renderHistory() {
+                const container = els.historyList;
+                const history = db.getHistory();
+
+                if (!history.length) {
+                    container.innerHTML =
+                        `<div class="text-muted text-center" style="padding:20px 0;">История пуста</div>`;
+                    return;
+                }
+
+                container.innerHTML = history.slice().reverse().map(h => `
+                    <div class="history-item">
+                        <div>
+                            <div class="history-user">${escapeHtml(h.username)}</div>
+                            <div class="history-date">${h.date}</div>
+                        </div>
+                        <div class="history-product">${escapeHtml(h.product)}</div>
+                        <div class="history-price">${h.price} ₽</div>
+                    </div>
+                `).join('');
+            }
+
+            function renderAdmins() {
+                const container = els.adminsList;
+                const admins = db.getAdmins();
+
+                container.innerHTML = admins.map(id =>
+                    `<div class="admin-row"><span class="admin-label">👤 ${id}</span></div>`
+                ).join('');
+            }
+
+            function renderSettings() {
+                els.dbPacksCount.textContent = db.getPacks().length;
+                els.dbOrdersCount.textContent = db.getHistory().length;
             }
 
             function renderAll() {
                 renderProducts();
                 renderAdminPacks();
+                renderHistory();
+                renderAdmins();
+                renderSettings();
                 updateStats();
                 updateSpinsDisplay();
                 updateBuyButton();
+
+                // Показываем админ-вкладки только админам
+                if (isAdmin) {
+                    els.adminTabBtn.style.display = 'block';
+                    els.historyTabBtn.style.display = 'block';
+                }
             }
 
             function updateStats() {
@@ -1408,9 +1417,8 @@
             }
 
             function selectProduct(id) {
-                const pack = db.getPack(id);
+                const pack = db.getPacks().find(p => p.id === id);
                 if (!pack) return;
-
                 selectedProduct = pack;
                 document.querySelectorAll('.product-item').forEach(el => {
                     el.classList.toggle('selected', parseInt(el.dataset.id) === id);
@@ -1433,16 +1441,46 @@
                 const el = els.status;
                 el.textContent = msg;
                 el.className = 'status ' + type;
-
                 if (statusTimeout) clearTimeout(statusTimeout);
                 if (type !== 'info') {
-                    statusTimeout = setTimeout(() => {
-                        el.className = 'status';
-                    }, 3500);
+                    statusTimeout = setTimeout(() => { el.className = 'status'; }, 3500);
                 }
             }
 
-            let statusTimeout = null;
+            window.copyText = function(text) {
+                navigator.clipboard?.writeText(text).then(() => {
+                    showStatus('✅ Скопировано!', 'success');
+                }).catch(() => {
+                    // fallback
+                    const el = document.createElement('textarea');
+                    el.value = text;
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+                    showStatus('✅ Скопировано!', 'success');
+                });
+            };
+
+            window.exportData = function() {
+                const data = db.exportData();
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `genie_store_backup_${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showStatus('✅ Данные экспортированы!', 'success');
+            };
+
+            window.resetDB = function() {
+                showModal('Сброс базы данных?', 'Все данные будут удалены без возможности восстановления!', () => {
+                    db.reset();
+                    renderAll();
+                    showStatus('🔄 База данных сброшена', 'warning');
+                });
+            };
 
             // ============================================
             // МОДАЛКА
@@ -1467,7 +1505,6 @@
                 if (modalCallback) modalCallback();
                 closeModal();
             });
-
             els.modalOverlay.addEventListener('click', (e) => {
                 if (e.target === e.currentTarget) closeModal();
             });
@@ -1479,7 +1516,6 @@
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-
                     const tab = this.dataset.tab;
                     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
                     const target = document.getElementById(`tab-${tab}`);
@@ -1490,7 +1526,6 @@
             // ============================================
             // КНОПКИ
             // ============================================
-            // Купить
             els.buyBtn.addEventListener('click', function() {
                 if (!selectedProduct) {
                     showStatus('❌ Сначала выберите товар', 'error');
@@ -1510,16 +1545,11 @@
                 try {
                     if (tg) {
                         tg.sendData(JSON.stringify(data));
-                    } else {
-                        console.log('📦 Данные для отправки:', data);
-                        showStatus('⚠️ Telegram не доступен (тестовый режим)', 'warning');
-                        return;
                     }
-                } catch (e) {
-                    console.error('Ошибка отправки:', e);
-                    showStatus('❌ Ошибка отправки заказа', 'error');
-                    return;
-                }
+                } catch (e) { console.error(e); }
+
+                // Добавляем в историю
+                db.addOrder(userId, userName, selectedProduct.name, selectedProduct.price);
 
                 showStatus(`✅ Заказ на "${selectedProduct.name}" отправлен!`, 'success');
 
@@ -1532,20 +1562,17 @@
                     document.querySelectorAll('.product-item').forEach(el => el.classList.remove('selected'));
                     selectedProduct = null;
                     updateBuyButton();
-                }, 3000);
+                    renderHistory();
+                    renderSettings();
+                    updateStats();
+                }, 2000);
             });
 
-            // Закрыть
-            els.closeBtn.addEventListener('click', () => {
-                try {
-                    if (tg) tg.close();
-                } catch (e) {
-                    console.log('Закрытие не поддерживается');
-                }
-            });
+            els.closeBtn.addEventListener('click', () => { try { if (tg) tg.close(); } catch (e) {} });
 
-            // Добавить пак
             els.addPackBtn.addEventListener('click', function() {
+                if (!isAdmin) { showStatus('⛔ Нет доступа!', 'error'); return; }
+
                 const name = els.packName.value.trim();
                 const price = parseFloat(els.packPrice.value);
                 const desc = els.packDesc.value.trim();
@@ -1557,7 +1584,7 @@
                 }
 
                 const newPack = {
-                    id: nextPackId++,
+                    id: db.data.nextPackId || 1,
                     name: name,
                     price: price,
                     desc: desc || 'Без описания',
@@ -1566,72 +1593,43 @@
                 };
 
                 db.addPack(newPack);
-                packs = db.getPacks();
-
                 els.packName.value = '';
                 els.packPrice.value = '';
                 els.packDesc.value = '';
                 els.packContent.value = '';
-
                 renderAll();
                 showStatus(`✅ Пак "${name}" добавлен!`, 'success');
             });
 
-            // Обновить
             els.refreshAdminBtn.addEventListener('click', () => {
-                packs = db.getPacks();
-                renderAdminPacks();
-                updateStats();
+                renderAll();
                 showStatus('🔄 Обновлено', 'info');
             });
 
             // ============================================
-            // ОБРАБОТКА TELEGRAM
+            // TELEGRAM
             // ============================================
             try {
                 if (tg) {
-                    // Главная кнопка
                     tg.MainButton.setText('🛒 Купить');
                     tg.MainButton.show();
-                    tg.MainButton.onClick(() => {
-                        els.buyBtn.click();
-                    });
+                    tg.MainButton.onClick(() => { els.buyBtn.click(); });
 
-                    // Данные от бота
                     tg.onEvent('webAppData', (data) => {
                         try {
                             const received = JSON.parse(data);
-                            console.log('📩 Данные от бота:', received);
-
                             if (received.action === 'update_spins') {
-                                const newSpins = db.updateSpins(received.free, received.paid);
+                                db.updateSpins(received.free, received.paid);
                                 updateSpinsDisplay();
                                 showStatus('🎰 Спины обновлены!', 'success');
                             }
-
-                            if (received.action === 'order_confirmed') {
-                                showStatus('✅ Заказ подтвержден!', 'success');
-                                if (received.new_spins) {
-                                    db.updateSpins(received.new_spins.free, received.new_spins.paid);
-                                    updateSpinsDisplay();
-                                }
-                                if (received.revenue) {
-                                    const stats = db.getStats();
-                                    db.updateStats({ revenue: (stats.revenue || 0) + received.revenue });
-                                    updateStats();
-                                }
-                            }
-                        } catch (e) {
-                            console.log('Не удалось распарсить данные');
-                        }
+                        } catch (e) {}
                     });
                 }
-            } catch (e) {
-                console.warn('⚠️ Ошибка настройки Telegram:', e);
-            }
+            } catch (e) {}
 
             // ============================================
-            // ПОЛЬЗОВАТЕЛЬСКИЙ ИНТЕРФЕЙС
+            // ПОЛЬЗОВАТЕЛЬ
             // ============================================
             els.userName.textContent = userName;
             els.userId.textContent = `ID: ${userId}`;
@@ -1641,51 +1639,24 @@
                 els.userRole.textContent = 'ADMIN';
                 els.userRole.classList.add('admin');
                 els.adminTabBtn.style.display = 'block';
+                els.historyTabBtn.style.display = 'block';
             }
 
             // ============================================
-            // ИНИЦИАЛИЗАЦИЯ
+            // ЗАПУСК
             // ============================================
             renderAll();
 
-            console.log('✅ Genie Store загружен');
-            console.log('📊 База данных:', db.data);
+            console.log('✅ Genie Store v3.0 загружен');
             console.log('👤 Пользователь:', { id: userId, name: userName, isAdmin });
             console.log('📦 Паков:', db.getPacks().length);
-            console.log('🎰 Спины:', db.getSpins());
+            console.log('📜 Покупок:', db.getHistory().length);
+            console.log('👥 Админы:', db.getAdmins());
 
-            // ============================================
-            // ЭКСПОРТ (для отладки)
-            // ============================================
-            window.__genie = {
-                db: db,
-                packs: db.getPacks,
-                spins: db.getSpins,
-                addPack: (name, price, desc, content) => {
-                    const pack = { id: nextPackId++, name, price, desc, content };
-                    db.addPack(pack);
-                    renderAll();
-                    return pack;
-                },
-                removePack: (id) => {
-                    db.deletePack(id);
-                    renderAll();
-                },
-                updateSpins: (free, paid) => {
-                    db.updateSpins(free, paid);
-                    updateSpinsDisplay();
-                }
-            };
+            window.__db = db;
 
-            console.log('💡 Для работы с БД используйте window.__genie');
-
-            // ============================================
-            // АВТОСОХРАНЕНИЕ ПРИ ЗАКРЫТИИ
-            // ============================================
-            window.addEventListener('beforeunload', () => {
-                db.save();
-                console.log('💾 Данные сохранены перед закрытием');
-            });
+            // Автосохранение
+            window.addEventListener('beforeunload', () => { db.save(); });
 
         })();
     </script>
