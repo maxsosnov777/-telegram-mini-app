@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Genie Store</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js">
+    </script>
     <style>
         /* ============================================
            RESET И БАЗА
@@ -14,313 +15,449 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0a0a;
-            color: #e0e0e0;
+            color: #e8e8e8;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 16px;
+            padding: 12px;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(30, 30, 30, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(20, 20, 20, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 0%, rgba(40, 40, 40, 0.1) 0%, transparent 50%);
+            background-attachment: fixed;
         }
-        
+
         ::-webkit-scrollbar {
-            width: 4px;
+            width: 3px;
         }
         ::-webkit-scrollbar-track {
-            background: #1a1a1a;
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: #333;
+            background: #2a2a2a;
             border-radius: 10px;
         }
-        
+
         .container {
             max-width: 420px;
             width: 100%;
+            padding-bottom: 20px;
         }
-        
+
         /* ============================================
            ШАПКА
            ============================================ */
         .header {
             text-align: center;
-            padding: 20px 0 16px;
-            border-bottom: 1px solid #1a1a1a;
-            margin-bottom: 20px;
+            padding: 24px 0 18px;
+            position: relative;
         }
-        
-        .header .logo {
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        .logo {
             font-size: 32px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #e0e0e0, #888);
+            background: linear-gradient(135deg, #f0f0f0 0%, #888888 50%, #444444 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
         }
-        
-        .header .logo span {
-            background: linear-gradient(135deg, #666, #333);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .header .subtitle {
+
+        .logo-sub {
             font-size: 13px;
-            color: #555;
-            margin-top: 4px;
+            color: #333;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-weight: 300;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 10px;
+            color: #444;
+            margin-top: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             letter-spacing: 0.5px;
         }
-        
-        .header .badge {
-            display: inline-block;
-            background: #1a1a1a;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 11px;
-            color: #666;
-            margin-top: 8px;
-            border: 1px solid #222;
-        }
-        
+
         /* ============================================
            КАРТОЧКА ПОЛЬЗОВАТЕЛЯ
            ============================================ */
         .user-card {
-            background: #111;
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 16px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            border: 1px solid #1a1a1a;
+            padding: 14px 18px;
+            margin: 16px 0 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             gap: 14px;
+            transition: all 0.3s ease;
         }
-        
+
+        .user-card:hover {
+            border-color: rgba(255, 255, 255, 0.07);
+        }
+
         .user-avatar {
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            color: #888;
-            border: 1px solid #2a2a2a;
+            color: #666;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             flex-shrink: 0;
         }
-        
+
         .user-info {
             flex: 1;
             min-width: 0;
         }
-        
+
         .user-name {
             font-weight: 600;
-            font-size: 16px;
-            color: #e0e0e0;
+            font-size: 15px;
+            color: #e8e8e8;
         }
-        
+
         .user-id {
-            font-size: 12px;
-            color: #444;
+            font-size: 11px;
+            color: #333;
             font-family: monospace;
         }
-        
+
         .user-role {
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 2px 10px;
+            letter-spacing: 0.8px;
+            padding: 3px 12px;
             border-radius: 12px;
-            background: #1a1a1a;
-            color: #666;
-            border: 1px solid #222;
+            background: rgba(255, 255, 255, 0.03);
+            color: #444;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
         }
-        
+
         .user-role.admin {
-            background: #1a1a2a;
-            color: #8888cc;
-            border-color: #2a2a4a;
+            background: rgba(100, 100, 200, 0.08);
+            color: #7777bb;
+            border-color: rgba(100, 100, 200, 0.1);
         }
-        
+
+        /* ============================================
+           СПИНЫ
+           ============================================ */
+        .spins-bar {
+            display: flex;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .spin-item {
+            flex: 1;
+            text-align: center;
+            padding: 4px 0;
+        }
+
+        .spin-count {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        .spin-count.free {
+            color: #666;
+        }
+        .spin-count.paid {
+            color: #888;
+        }
+        .spin-count.total {
+            background: linear-gradient(135deg, #888, #444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .spin-count.pop {
+            animation: pop 0.3s ease;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .spin-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: #333;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .spin-divider {
+            width: 1px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
         /* ============================================
            ВКЛАДКИ
            ============================================ */
         .tabs {
             display: flex;
-            gap: 6px;
-            background: #111;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 14px;
             padding: 4px;
-            margin-bottom: 20px;
-            border: 1px solid #1a1a1a;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
-        
+
         .tab-btn {
             flex: 1;
             padding: 10px 0;
             border: none;
             border-radius: 11px;
             background: transparent;
-            color: #555;
+            color: #444;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
-        
+
         .tab-btn.active {
-            background: #1a1a1a;
-            color: #e0e0e0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e8e8e8;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
         }
-        
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 30%;
+            right: 30%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         .tab-btn:hover:not(.active) {
-            color: #888;
+            color: #666;
         }
-        
+
         .tab-content {
             display: none;
+            animation: fadeSlide 0.3s ease;
         }
-        
+
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s ease;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         /* ============================================
-           КАРТОЧКИ ТОВАРОВ
+           ТОВАРЫ
            ============================================ */
-        .section-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 14px;
-        }
-        
-        .products-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .product-item {
-            background: #111;
-            border-radius: 14px;
-            padding: 16px 18px;
-            border: 1px solid #1a1a1a;
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.2s ease;
-            cursor: pointer;
+            margin-bottom: 14px;
         }
-        
-        .product-item:hover {
-            border-color: #2a2a2a;
-            background: #151515;
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
         }
-        
-        .product-item.selected {
-            border-color: #444;
-            background: #181818;
-            box-shadow: 0 0 30px rgba(255,255,255,0.02);
+
+        .section-count {
+            font-size: 11px;
+            color: #222;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
-        
-        .product-left {
+
+        .products-grid {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 8px;
+        }
+
+        .product-item {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.01), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-item:hover::before {
+            opacity: 1;
+        }
+
+        .product-item:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .product-item.selected {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.01);
+        }
+
+        .product-item.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 6px;
+            right: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .product-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             flex: 1;
             min-width: 0;
         }
-        
+
+        .product-emoji {
+            font-size: 22px;
+            flex-shrink: 0;
+            width: 36px;
+            text-align: center;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 0;
+        }
+
         .product-name {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
-            color: #e0e0e0;
+            color: #e8e8e8;
         }
-        
+
         .product-desc {
-            font-size: 12px;
-            color: #444;
+            font-size: 11px;
+            color: #333;
+            margin-top: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        
+
         .product-price {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: #888;
             flex-shrink: 0;
             margin-left: 12px;
         }
-        
+
         .product-price .currency {
-            font-size: 12px;
-            color: #555;
-        }
-        
-        .product-emoji {
-            font-size: 20px;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
-        /* ============================================
-           СПИНЫ
-           ============================================ */
-        .spins-bar {
-            display: flex;
-            gap: 8px;
-            background: #111;
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 20px;
-            border: 1px solid #1a1a1a;
-        }
-        
-        .spin-item {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .spin-count {
-            font-size: 22px;
-            font-weight: 700;
-            color: #e0e0e0;
-        }
-        
-        .spin-count.free { color: #666; }
-        .spin-count.paid { color: #888; }
-        .spin-count.total { 
-            background: linear-gradient(135deg, #666, #333);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .spin-label {
-            font-size: 10px;
-            text-transform: uppercase;
+            font-size: 11px;
             color: #444;
-            letter-spacing: 0.3px;
-            margin-top: 2px;
         }
-        
-        .spin-divider {
-            width: 1px;
-            background: #1a1a1a;
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: #222;
         }
-        
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state .title {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .empty-state .sub {
+            font-size: 12px;
+            color: #222;
+            margin-top: 4px;
+        }
+
         /* ============================================
            КНОПКИ
            ============================================ */
@@ -334,169 +471,221 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 12px;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
         .btn-primary {
-            background: #1a1a1a;
-            color: #e0e0e0;
-            border: 1px solid #2a2a2a;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e8e8e8;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        
+
         .btn-primary:hover:not(:disabled) {
-            background: #222;
-            border-color: #333;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .btn-primary:disabled {
-            opacity: 0.3;
+            opacity: 0.2;
             cursor: not-allowed;
+            transform: none !important;
         }
-        
+
         .btn-secondary {
-            background: #111;
-            color: #555;
-            border: 1px solid #1a1a1a;
+            background: rgba(255, 255, 255, 0.02);
+            color: #444;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             margin-top: 6px;
         }
-        
+
         .btn-secondary:hover {
-            background: #181818;
-            color: #888;
+            background: rgba(255, 255, 255, 0.04);
+            color: #666;
         }
-        
-        .btn-danger {
-            background: #1a0a0a;
-            color: #884444;
-            border: 1px solid #2a1a1a;
-        }
-        
-        .btn-danger:hover {
-            background: #221111;
-            color: #aa5555;
-        }
-        
+
         .btn-success {
-            background: #0a1a0a;
-            color: #448844;
-            border: 1px solid #1a2a1a;
-        }
-        
-        .btn-success:hover {
-            background: #112211;
+            background: rgba(50, 200, 100, 0.05);
             color: #55aa55;
+            border: 1px solid rgba(50, 200, 100, 0.08);
         }
-        
+
+        .btn-success:hover {
+            background: rgba(50, 200, 100, 0.08);
+            border-color: rgba(50, 200, 100, 0.12);
+        }
+
+        .btn-danger {
+            background: rgba(200, 50, 50, 0.05);
+            color: #aa5555;
+            border: 1px solid rgba(200, 50, 50, 0.08);
+        }
+
+        .btn-danger:hover {
+            background: rgba(200, 50, 50, 0.08);
+            border-color: rgba(200, 50, 50, 0.12);
+        }
+
         .btn-sm {
-            padding: 8px 14px;
-            font-size: 12px;
+            padding: 6px 12px;
+            font-size: 11px;
             width: auto;
             margin-top: 0;
+            border-radius: 10px;
         }
-        
+
         /* ============================================
            АДМИН-ПАНЕЛЬ
            ============================================ */
         .admin-panel {
-            background: #111;
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 14px;
             padding: 16px;
-            border: 1px solid #1a1a1a;
-            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
-        
+
         .admin-panel .panel-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            color: #666;
+            color: #444;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            margin-bottom: 14px;
         }
-        
+
         .admin-panel .admin-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid #151515;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-        
+
         .admin-panel .admin-row:last-child {
             border-bottom: none;
         }
-        
+
         .admin-panel .admin-label {
             font-size: 13px;
-            color: #888;
+            color: #555;
         }
-        
+
         .admin-panel .admin-value {
             font-size: 13px;
             font-weight: 500;
-            color: #e0e0e0;
+            color: #e8e8e8;
         }
-        
+
         .admin-panel .admin-value .id {
-            color: #555;
+            color: #333;
             font-family: monospace;
-            font-size: 12px;
+            font-size: 11px;
         }
-        
+
         .admin-panel .admin-actions {
             display: flex;
             gap: 6px;
             margin-top: 12px;
             flex-wrap: wrap;
         }
-        
+
         .admin-panel .admin-actions .btn {
             flex: 1;
             min-width: 60px;
-            padding: 10px;
-            font-size: 12px;
+            padding: 8px;
+            font-size: 11px;
         }
-        
+
+        .admin-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            color: #e8e8e8;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-input::placeholder {
+            color: #222;
+        }
+
+        .admin-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .admin-input-group .admin-input:last-child {
+            grid-column: 1 / -1;
+        }
+
         /* ============================================
            СТАТУСЫ
            ============================================ */
         .status {
             margin-top: 12px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
             text-align: center;
             font-size: 13px;
             display: none;
             border: 1px solid transparent;
+            animation: fadeSlide 0.3s ease;
         }
-        
+
         .status.success {
             display: block;
-            background: #0a1a0a;
-            border-color: #1a2a1a;
+            background: rgba(50, 200, 100, 0.04);
+            border-color: rgba(50, 200, 100, 0.08);
             color: #55aa55;
         }
-        
+
         .status.error {
             display: block;
-            background: #1a0a0a;
-            border-color: #2a1a1a;
+            background: rgba(200, 50, 50, 0.04);
+            border-color: rgba(200, 50, 50, 0.08);
             color: #aa5555;
         }
-        
+
         .status.info {
             display: block;
-            background: #0a0a1a;
-            border-color: #1a1a2a;
-            color: #5555aa;
+            background: rgba(50, 100, 200, 0.04);
+            border-color: rgba(50, 100, 200, 0.08);
+            color: #5577aa;
         }
-        
+
         .status.warning {
             display: block;
-            background: #1a1a0a;
-            border-color: #2a2a1a;
+            background: rgba(200, 200, 50, 0.04);
+            border-color: rgba(200, 200, 50, 0.08);
             color: #aaaa55;
         }
-        
+
         /* ============================================
            МОДАЛКА
            ============================================ */
@@ -507,130 +696,162 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        
+
         .modal-overlay.active {
             display: flex;
+            animation: fadeIn 0.2s ease;
         }
-        
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         .modal {
             background: #111;
             border-radius: 20px;
             padding: 24px;
             max-width: 380px;
             width: 100%;
-            border: 1px solid #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             max-height: 80vh;
             overflow-y: auto;
+            animation: scaleIn 0.25s ease;
         }
-        
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         .modal-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
-            color: #e0e0e0;
-            margin-bottom: 16px;
+            color: #e8e8e8;
+            margin-bottom: 12px;
         }
-        
+
         .modal-close {
             float: right;
             background: none;
             border: none;
-            color: #444;
-            font-size: 20px;
+            color: #333;
+            font-size: 18px;
             cursor: pointer;
+            transition: color 0.2s;
         }
-        
+
         .modal-close:hover {
-            color: #888;
+            color: #666;
         }
-        
-        .modal input, .modal textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 10px;
-            color: #e0e0e0;
+
+        .modal-body {
+            color: #555;
             font-size: 14px;
-            margin-bottom: 12px;
-            font-family: inherit;
-            transition: border-color 0.2s;
+            line-height: 1.6;
         }
-        
-        .modal input:focus, .modal textarea:focus {
-            outline: none;
-            border-color: #333;
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
         }
-        
-        .modal textarea {
-            min-height: 80px;
-            resize: vertical;
+
+        .modal-actions .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+            margin-top: 0;
         }
-        
-        .modal .btn {
-            margin-top: 4px;
-        }
-        
+
         /* ============================================
            ФУТЕР
            ============================================ */
         .footer {
             text-align: center;
-            padding: 24px 0 12px;
-            font-size: 11px;
-            color: #222;
-            border-top: 1px solid #111;
+            padding: 24px 0 8px;
+            font-size: 10px;
+            color: #1a1a1a;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
             margin-top: 20px;
+            letter-spacing: 0.3px;
         }
-        
+
         .footer a {
-            color: #333;
+            color: #222;
             text-decoration: none;
         }
-        
+
         .footer a:hover {
-            color: #555;
+            color: #333;
         }
-        
+
+        .footer .dot {
+            color: #1a1a1a;
+            margin: 0 6px;
+        }
+
         /* ============================================
-           ВСПОМОГАТЕЛЬНЫЕ
+           УТИЛИТЫ
            ============================================ */
         .hidden {
             display: none !important;
         }
-        
+
         .flex-between {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        .gap-8 { gap: 8px; }
-        .mt-8 { margin-top: 8px; }
-        .mt-12 { margin-top: 12px; }
-        .mb-8 { margin-bottom: 8px; }
-        .mb-12 { margin-bottom: 12px; }
-        
+
+        .gap-8 {
+            gap: 8px;
+        }
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .mb-12 {
+            margin-bottom: 12px;
+        }
+
         .text-muted {
-            color: #444;
+            color: #333;
             font-size: 12px;
         }
-        
+
         .text-center {
             text-align: center;
         }
-        
+
         .divider {
             height: 1px;
-            background: #1a1a1a;
-            margin: 16px 0;
+            background: rgba(255, 255, 255, 0.03);
+            margin: 14px 0;
         }
-        
+
         /* ============================================
            АДАПТИВ
            ============================================ */
@@ -650,49 +871,40 @@
             .spin-count {
                 font-size: 18px;
             }
+            .admin-input-group {
+                grid-template-columns: 1fr;
+            }
+            .header .logo {
+                font-size: 26px;
+            }
         }
-        
-        /* ============================================
-           СВЕТЛЯЩИЕСЯ ЭЛЕМЕНТЫ
-           ============================================ */
-        .glow-effect {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .glow-effect::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
-        }
-        
-        .glow-effect:hover::before {
-            opacity: 1;
+
+        @media (min-width: 600px) {
+            body {
+                padding: 24px;
+            }
+            .container {
+                max-width: 480px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+
         <!-- ==========================================
         ШАПКА
         ========================================== -->
-        <div class="header">
-            <div class="logo">Genie<span>Store</span></div>
-            <div class="subtitle">✦ магазин премиум-контента ✦</div>
-            <div class="badge">⚡ готов к работе</div>
-        </div>
+        <header class="header">
+            <div class="logo">Genie<span style="color:#333;">Store</span></div>
+            <div class="logo-sub">✦ премиум контент ✦</div>
+            <div class="header-badge">⚡ работает</div>
+        </header>
 
         <!-- ==========================================
         ПОЛЬЗОВАТЕЛЬ
         ========================================== -->
-        <div class="user-card">
+        <div class="user-card" id="userCard">
             <div class="user-avatar" id="userAvatar">👤</div>
             <div class="user-info">
                 <div class="user-name" id="userName">Гость</div>
@@ -704,7 +916,7 @@
         <!-- ==========================================
         СПИНЫ
         ========================================== -->
-        <div class="spins-bar">
+        <div class="spins-bar" id="spinsBar">
             <div class="spin-item">
                 <div class="spin-count free" id="freeSpins">10</div>
                 <div class="spin-label">🎁 бесплатные</div>
@@ -726,16 +938,19 @@
         ========================================== -->
         <div class="tabs">
             <button class="tab-btn active" data-tab="shop">🛍 Магазин</button>
-            <button class="tab-btn" data-tab="admin">⚙️ Админ</button>
+            <button class="tab-btn" data-tab="admin" id="adminTabBtn" style="display:none;">⚙️ Админ</button>
         </div>
 
         <!-- ==========================================
         ВКЛАДКА: МАГАЗИН
         ========================================== -->
         <div class="tab-content active" id="tab-shop">
-            <div class="section-title">📦 доступные товары</div>
+            <div class="section-header">
+                <div class="section-title">📦 товары</div>
+                <div class="section-count" id="productsCount">0</div>
+            </div>
             <div class="products-grid" id="productsContainer">
-                <!-- Товары загружаются из JS -->
+                <!-- Загружается из JS -->
             </div>
 
             <button class="btn btn-primary" id="buyBtn" disabled>🛒 выберите товар</button>
@@ -748,29 +963,27 @@
         ВКЛАДКА: АДМИН
         ========================================== -->
         <div class="tab-content" id="tab-admin">
-            <!-- Админ-панель -->
-            <div class="admin-panel" id="adminPanel">
+            <div class="admin-panel">
                 <div class="panel-title">⚙️ управление паками</div>
-                
-                <!-- Список паков -->
+
                 <div id="adminPacksList">
                     <!-- Загружается из JS -->
                 </div>
-                
+
                 <div class="divider"></div>
-                
-                <!-- Форма добавления пака -->
-                <div class="panel-title" style="margin-top: 4px;">➕ добавить пак</div>
-                <input type="text" id="packName" placeholder="Название пака">
-                <input type="number" id="packPrice" placeholder="Цена (руб)">
-                <input type="text" id="packDesc" placeholder="Описание">
-                <input type="text" id="packContent" placeholder="Содержимое (ссылка)">
+
+                <div class="panel-title" style="margin-top: 2px;">➕ добавить пак</div>
+                <input class="admin-input" type="text" id="packName" placeholder="Название пака">
+                <div class="admin-input-group">
+                    <input class="admin-input" type="number" id="packPrice" placeholder="Цена (₽)">
+                    <input class="admin-input" type="text" id="packDesc" placeholder="Описание">
+                </div>
+                <input class="admin-input" type="text" id="packContent" placeholder="Содержимое (ссылка)">
                 <button class="btn btn-success" id="addPackBtn">➕ добавить</button>
-                
+
                 <div class="divider"></div>
-                
-                <!-- Статистика -->
-                <div class="panel-title" style="margin-top: 4px;">📊 статистика</div>
+
+                <div class="panel-title" style="margin-top: 2px;">📊 статистика</div>
                 <div class="admin-row">
                     <span class="admin-label">Всего паков</span>
                     <span class="admin-value" id="totalPacks">0</span>
@@ -783,7 +996,7 @@
                     <span class="admin-label">Доход</span>
                     <span class="admin-value" id="totalRevenue">0 ₽</span>
                 </div>
-                
+
                 <div class="admin-actions">
                     <button class="btn btn-secondary btn-sm" id="refreshAdminBtn">🔄 обновить</button>
                     <button class="btn btn-danger btn-sm" id="resetPacksBtn" style="display:none;">🗑️ сброс</button>
@@ -795,21 +1008,23 @@
         ФУТЕР
         ========================================== -->
         <div class="footer">
-            <span>© 2026 Genie Store</span> · 
-            <span>v2.0</span> · 
-            <span>⚡ powered by Telegram</span>
+            <span>© 2026 Genie Store</span>
+            <span class="dot">·</span>
+            <span>v2.5</span>
+            <span class="dot">·</span>
+            <span>⚡ Telegram</span>
         </div>
     </div>
 
     <!-- ==========================================
-    МОДАЛКА ПОДТВЕРЖДЕНИЯ
+    МОДАЛКА
     ========================================== -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <button class="modal-close" id="modalCloseBtn">✕</button>
             <div class="modal-title" id="modalTitle">Подтверждение</div>
-            <div id="modalBody"></div>
-            <div class="flex-between gap-8 mt-12">
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-actions">
                 <button class="btn btn-secondary" id="modalCancelBtn">Отмена</button>
                 <button class="btn btn-primary" id="modalConfirmBtn">Подтвердить</button>
             </div>
@@ -817,347 +1032,662 @@
     </div>
 
     <script>
-        // ============================================
-        // ИНИЦИАЛИЗАЦИЯ TELEGRAM
-        // ============================================
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+        (function() {
+            'use strict';
 
-        // ============================================
-        // ПОЛЬЗОВАТЕЛЬ
-        // ============================================
-        const user = tg.initDataUnsafe?.user;
-        let userId = 'Неизвестно';
-        let userName = 'Гость';
-        let isAdmin = false; // true для админа
+            // ============================================
+            // TELEGRAM
+            // ============================================
+            const tg = window.Telegram?.WebApp;
+            let tgReady = false;
 
-        if (user) {
-            userId = user.id || 'Неизвестно';
-            userName = user.first_name || user.username || 'Гость';
-            document.getElementById('userName').textContent = userName;
-            document.getElementById('userId').textContent = `ID: ${userId}`;
-            document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
-        }
-
-        // Проверка админа (можно заменить на реальную проверку)
-        // ВАЖНО: нужно проверять через бота, здесь просто пример
-        const ADMIN_IDS = [8933996666, 8477554545]; // Ваши ID админов
-        if (ADMIN_IDS.includes(Number(userId))) {
-            isAdmin = true;
-            document.getElementById('userRole').textContent = 'ADMIN';
-            document.getElementById('userRole').classList.add('admin');
-            document.querySelector('.tab-btn[data-tab="admin"]').style.display = 'block';
-        } else {
-            document.querySelector('.tab-btn[data-tab="admin"]').style.display = 'none';
-        }
-
-        // ============================================
-        // ДАННЫЕ
-        // ============================================
-        let packs = [
-            { id: 1, name: '🎮 Премиум доступ', price: 499, desc: 'Все функции платформы', content: 'https://example.com/premium' },
-            { id: 2, name: '📚 Видео-курс', price: 299, desc: '10 уроков от экспертов', content: 'https://example.com/course' },
-            { id: 3, name: '🎰 10 спинов', price: 50, desc: 'Для просмотра галереи', content: 'spins' },
-        ];
-        
-        let spins = { free: 10, paid: 0 };
-        let selectedProduct = null;
-        let nextPackId = 4;
-
-        // ============================================
-        // ФУНКЦИИ ОТОБРАЖЕНИЯ
-        // ============================================
-        function renderProducts() {
-            const container = document.getElementById('productsContainer');
-            if (!packs.length) {
-                container.innerHTML = `
-                    <div style="text-align:center;padding:30px 0;color:#333;">
-                        <div style="font-size:40px;margin-bottom:10px;">📦</div>
-                        <div style="font-size:14px;">Товаров пока нет</div>
-                        <div style="font-size:12px;color:#222;margin-top:4px;">Загляните позже</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = packs.map(p => `
-                <div class="product-item" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">
-                    <div style="display:flex;align-items:center;flex:1;min-width:0;">
-                        <div class="product-emoji">${p.name.match(/^.{1,2}/)?.[0] || '📦'}</div>
-                        <div class="product-left">
-                            <div class="product-name">${p.name}</div>
-                            <div class="product-desc">${p.desc || 'Без описания'}</div>
-                        </div>
-                    </div>
-                    <div class="product-price">${p.price} <span class="currency">₽</span></div>
-                </div>
-            `).join('');
-            
-            // Клик по товару
-            document.querySelectorAll('.product-item').forEach(el => {
-                el.addEventListener('click', function() {
-                    document.querySelectorAll('.product-item').forEach(p => p.classList.remove('selected'));
-                    this.classList.add('selected');
-                    
-                    const id = parseInt(this.dataset.id);
-                    const pack = packs.find(p => p.id === id);
-                    if (pack) {
-                        selectedProduct = pack;
-                        document.getElementById('buyBtn').textContent = `🛒 Купить ${pack.name} за ${pack.price} ₽`;
-                        document.getElementById('buyBtn').disabled = false;
-                        showStatus(`Выбран: ${pack.name} (${pack.price} ₽)`, 'info');
-                    }
-                });
-            });
-        }
-
-        function renderAdminPacks() {
-            const container = document.getElementById('adminPacksList');
-            if (!packs.length) {
-                container.innerHTML = `
-                    <div style="text-align:center;padding:10px 0;color:#333;font-size:13px;">
-                        Паков нет. Добавьте первый!
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = packs.map(p => `
-                <div class="admin-row">
-                    <div>
-                        <div class="admin-label" style="font-weight:500;color:#e0e0e0;">${p.name}</div>
-                        <div class="admin-value" style="font-size:12px;color:#444;">
-                            ${p.price} ₽ · ${p.desc || 'Без описания'}
-                            <span class="id">#${p.id}</span>
-                        </div>
-                    </div>
-                    <div style="display:flex;gap:6px;">
-                        <button class="btn btn-danger btn-sm admin-delete-btn" data-id="${p.id}" style="padding:4px 10px;font-size:11px;">✕</button>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Удаление пака
-            document.querySelectorAll('.admin-delete-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const id = parseInt(this.dataset.id);
-                    showModal('Удалить пак?', `Вы уверены, что хотите удалить "${packs.find(p => p.id === id)?.name}"?`, () => {
-                        packs = packs.filter(p => p.id !== id);
-                        renderProducts();
-                        renderAdminPacks();
-                        updateStats();
-                        showStatus('✅ Пак удален', 'success');
-                    });
-                });
-            });
-        }
-
-        function updateStats() {
-            document.getElementById('totalPacks').textContent = packs.length;
-            document.getElementById('totalUsers').textContent = '1'; // Пример
-            document.getElementById('totalRevenue').textContent = '0 ₽'; // Пример
-        }
-
-        function updateSpinsDisplay() {
-            document.getElementById('freeSpins').textContent = spins.free;
-            document.getElementById('paidSpins').textContent = spins.paid;
-            document.getElementById('totalSpins').textContent = spins.free + spins.paid;
-        }
-
-        function showStatus(msg, type = 'info') {
-            const el = document.getElementById('status');
-            el.textContent = msg;
-            el.className = 'status ' + type;
-            if (type !== 'info') {
-                setTimeout(() => {
-                    el.className = 'status';
-                }, 4000);
-            }
-        }
-
-        // ============================================
-        // МОДАЛКА
-        // ============================================
-        let modalCallback = null;
-
-        function showModal(title, body, onConfirm) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalBody').innerHTML = body;
-            document.getElementById('modalOverlay').classList.add('active');
-            modalCallback = onConfirm;
-        }
-
-        document.getElementById('modalCloseBtn').addEventListener('click', () => {
-            document.getElementById('modalOverlay').classList.remove('active');
-        });
-        
-        document.getElementById('modalCancelBtn').addEventListener('click', () => {
-            document.getElementById('modalOverlay').classList.remove('active');
-        });
-        
-        document.getElementById('modalConfirmBtn').addEventListener('click', () => {
-            if (modalCallback) modalCallback();
-            document.getElementById('modalOverlay').classList.remove('active');
-        });
-
-        document.getElementById('modalOverlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) {
-                document.getElementById('modalOverlay').classList.remove('active');
-            }
-        });
-
-        // ============================================
-        // ВКЛАДКИ
-        // ============================================
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                const tab = this.dataset.tab;
-                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-                document.getElementById(`tab-${tab}`).classList.add('active');
-            });
-        });
-
-        // ============================================
-        // КНОПКИ
-        // ============================================
-        // Купить
-        document.getElementById('buyBtn').addEventListener('click', function() {
-            if (!selectedProduct) {
-                showStatus('❌ Сначала выберите товар', 'error');
-                return;
-            }
-
-            const data = {
-                action: 'buy',
-                product_id: selectedProduct.id,
-                product_name: selectedProduct.name,
-                price: selectedProduct.price,
-                user_id: userId,
-                username: userName
-            };
-
-            tg.sendData(JSON.stringify(data));
-            
-            showStatus(`✅ Заказ на "${selectedProduct.name}" отправлен!`, 'success');
-            
-            this.disabled = true;
-            this.textContent = '✅ Отправлено';
-            
-            setTimeout(() => {
-                this.textContent = '🛒 Купить';
-                this.disabled = false;
-                document.querySelectorAll('.product-item').forEach(p => p.classList.remove('selected'));
-                selectedProduct = null;
-            }, 3000);
-        });
-
-        // Закрыть
-        document.getElementById('closeBtn').addEventListener('click', () => {
-            tg.close();
-        });
-
-        // Добавить пак
-        document.getElementById('addPackBtn').addEventListener('click', function() {
-            const name = document.getElementById('packName').value.trim();
-            const price = parseFloat(document.getElementById('packPrice').value);
-            const desc = document.getElementById('packDesc').value.trim();
-            const content = document.getElementById('packContent').value.trim();
-
-            if (!name || isNaN(price) || price <= 0) {
-                showStatus('❌ Заполните название и цену', 'error');
-                return;
-            }
-
-            const newPack = {
-                id: nextPackId++,
-                name: name,
-                price: price,
-                desc: desc || 'Без описания',
-                content: content || 'Ссылка'
-            };
-
-            packs.push(newPack);
-            
-            // Очистка полей
-            document.getElementById('packName').value = '';
-            document.getElementById('packPrice').value = '';
-            document.getElementById('packDesc').value = '';
-            document.getElementById('packContent').value = '';
-            
-            renderProducts();
-            renderAdminPacks();
-            updateStats();
-            showStatus(`✅ Пак "${name}" добавлен!`, 'success');
-        });
-
-        // Обновить админку
-        document.getElementById('refreshAdminBtn').addEventListener('click', () => {
-            renderAdminPacks();
-            updateStats();
-            showStatus('🔄 Обновлено', 'info');
-        });
-
-        // Главная кнопка Telegram
-        tg.MainButton.setText('🛒 Купить');
-        tg.MainButton.show();
-        tg.MainButton.onClick(() => {
-            document.getElementById('buyBtn').click();
-        });
-
-        // ============================================
-        // ОБРАБОТКА ДАННЫХ ОТ БОТА
-        // ============================================
-        tg.onEvent('webAppData', (data) => {
             try {
-                const receivedData = JSON.parse(data);
-                console.log('📩 Данные от бота:', receivedData);
-                
-                if (receivedData.action === 'update_spins') {
-                    spins.free = receivedData.free || spins.free;
-                    spins.paid = receivedData.paid || spins.paid;
-                    updateSpinsDisplay();
-                    showStatus('🎰 Спины обновлены!', 'success');
-                }
-                
-                if (receivedData.action === 'order_confirmed') {
-                    showStatus('✅ Заказ подтвержден!', 'success');
-                    if (receivedData.new_spins) {
-                        spins.free = receivedData.new_spins.free || spins.free;
-                        spins.paid = receivedData.new_spins.paid || spins.paid;
-                        updateSpinsDisplay();
-                    }
+                if (tg) {
+                    tg.ready();
+                    tg.expand();
+                    tgReady = true;
+                    console.log('✅ Telegram WebApp инициализирован');
+                } else {
+                    console.warn('⚠️ Telegram WebApp не найден');
                 }
             } catch (e) {
-                console.log('Не удалось распарсить данные:', data);
+                console.warn('⚠️ Ошибка инициализации Telegram:', e);
             }
-        });
 
-        // ============================================
-        // ЗАПУСК
-        // ============================================
-        renderProducts();
-        renderAdminPacks();
-        updateStats();
-        updateSpinsDisplay();
+            // ============================================
+            // ПОЛЬЗОВАТЕЛЬ
+            // ============================================
+            const user = tg?.initDataUnsafe?.user || null;
+            let userId = user?.id || 'Неизвестно';
+            let userName = user?.first_name || user?.username || 'Гость';
 
-        console.log('✅ Genie Store загружен');
-        console.log('👤 Пользователь:', user);
-        console.log('📦 Паки:', packs);
-        console.log('🎰 Спины:', spins);
+            // ============================================
+            // АДМИНЫ
+            // ============================================
+            const ADMIN_IDS = [8933996666, 8477554545];
+            const isAdmin = ADMIN_IDS.includes(Number(userId));
 
-        // ============================================
-        // ДЕМОНСТРАЦИЯ ОБНОВЛЕНИЯ СПИНОВ
-        // ============================================
-        // Имитация получения данных от бота через 2 секунды
-        setTimeout(() => {
-            // Здесь можно получить реальные данные от бота
-            // tg.sendData(JSON.stringify({ action: 'get_spins' }));
-        }, 2000);
+            // ============================================
+            // DOM ЭЛЕМЕНТЫ
+            // ============================================
+            const $ = (sel) => document.querySelector(sel);
+            const $$ = (sel) => document.querySelectorAll(sel);
+
+            const els = {
+                userName: $('#userName'),
+                userId: $('#userId'),
+                userAvatar: $('#userAvatar'),
+                userRole: $('#userRole'),
+                freeSpins: $('#freeSpins'),
+                paidSpins: $('#paidSpins'),
+                totalSpins: $('#totalSpins'),
+                productsContainer: $('#productsContainer'),
+                productsCount: $('#productsCount'),
+                buyBtn: $('#buyBtn'),
+                closeBtn: $('#closeBtn'),
+                status: $('#status'),
+                adminPacksList: $('#adminPacksList'),
+                totalPacks: $('#totalPacks'),
+                totalUsers: $('#totalUsers'),
+                totalRevenue: $('#totalRevenue'),
+                packName: $('#packName'),
+                packPrice: $('#packPrice'),
+                packDesc: $('#packDesc'),
+                packContent: $('#packContent'),
+                addPackBtn: $('#addPackBtn'),
+                refreshAdminBtn: $('#refreshAdminBtn'),
+                resetPacksBtn: $('#resetPacksBtn'),
+                adminTabBtn: $('#adminTabBtn'),
+                modalOverlay: $('#modalOverlay'),
+                modalTitle: $('#modalTitle'),
+                modalBody: $('#modalBody'),
+                modalCloseBtn: $('#modalCloseBtn'),
+                modalCancelBtn: $('#modalCancelBtn'),
+                modalConfirmBtn: $('#modalConfirmBtn'),
+            };
+
+            // ============================================
+            // БАЗА ДАННЫХ (Database)
+            // ============================================
+            class Database {
+                constructor(name = 'genie_store_db') {
+                    this.dbName = name;
+                    this.data = null;
+                    this.load();
+                }
+
+                load() {
+                    try {
+                        const saved = localStorage.getItem(this.dbName);
+                        if (saved) {
+                            this.data = JSON.parse(saved);
+                            console.log('📂 База данных загружена');
+                        } else {
+                            this.data = this.getDefaultData();
+                            this.save();
+                            console.log('📂 Создана новая база данных');
+                        }
+                    } catch (e) {
+                        console.error('Ошибка загрузки БД:', e);
+                        this.data = this.getDefaultData();
+                        this.save();
+                    }
+                    return this.data;
+                }
+
+                save() {
+                    try {
+                        localStorage.setItem(this.dbName, JSON.stringify(this.data));
+                        console.log('💾 База данных сохранена');
+                        return true;
+                    } catch (e) {
+                        console.error('Ошибка сохранения БД:', e);
+                        return false;
+                    }
+                }
+
+                getDefaultData() {
+                    return {
+                        packs: [
+                            { id: 1, name: '🎮 Премиум доступ', price: 499, desc: 'Все функции платформы', content: 'https://example.com/premium', emoji: '🎮' },
+                            { id: 2, name: '📚 Видео-курс', price: 299, desc: '10 уроков от экспертов', content: 'https://example.com/course', emoji: '📚' },
+                            { id: 3, name: '🎰 10 спинов', price: 50, desc: 'Для просмотра галереи', content: 'spins', emoji: '🎰' },
+                        ],
+                        spins: { free: 10, paid: 0 },
+                        stats: { users: 1, revenue: 0 },
+                        nextPackId: 4,
+                        version: '2.5'
+                    };
+                }
+
+                // === Методы для работы с паками ===
+                getPacks() {
+                    return this.data.packs || [];
+                }
+
+                addPack(pack) {
+                    if (!pack.id) {
+                        pack.id = this.data.nextPackId || 1;
+                        this.data.nextPackId = pack.id + 1;
+                    }
+                    if (!pack.emoji) {
+                        pack.emoji = pack.name.match(/^.{1,2}/)?.[0] || '📦';
+                    }
+                    this.data.packs.push(pack);
+                    this.save();
+                    return pack;
+                }
+
+                updatePack(id, updates) {
+                    const index = this.data.packs.findIndex(p => p.id === id);
+                    if (index === -1) return null;
+                    this.data.packs[index] = { ...this.data.packs[index], ...updates };
+                    this.save();
+                    return this.data.packs[index];
+                }
+
+                deletePack(id) {
+                    this.data.packs = this.data.packs.filter(p => p.id !== id);
+                    this.save();
+                    return true;
+                }
+
+                getPack(id) {
+                    return this.data.packs.find(p => p.id === id) || null;
+                }
+
+                // === Методы для работы со спинами ===
+                getSpins() {
+                    return this.data.spins || { free: 10, paid: 0 };
+                }
+
+                updateSpins(free, paid) {
+                    if (free !== undefined) this.data.spins.free = free;
+                    if (paid !== undefined) this.data.spins.paid = paid;
+                    this.save();
+                    return this.data.spins;
+                }
+
+                addFreeSpins(count) {
+                    this.data.spins.free += count;
+                    this.save();
+                    return this.data.spins;
+                }
+
+                addPaidSpins(count) {
+                    this.data.spins.paid += count;
+                    this.save();
+                    return this.data.spins;
+                }
+
+                // === Методы для статистики ===
+                getStats() {
+                    return this.data.stats || { users: 0, revenue: 0 };
+                }
+
+                updateStats(updates) {
+                    this.data.stats = { ...this.data.stats, ...updates };
+                    this.save();
+                    return this.data.stats;
+                }
+
+                // === Резервное копирование ===
+                backup() {
+                    const backup = JSON.stringify(this.data);
+                    localStorage.setItem(`${this.dbName}_backup_${Date.now()}`, backup);
+                    console.log('💾 Создана резервная копия БД');
+                    return backup;
+                }
+
+                restore(backupData) {
+                    try {
+                        this.data = JSON.parse(backupData);
+                        this.save();
+                        console.log('🔄 База данных восстановлена');
+                        return true;
+                    } catch (e) {
+                        console.error('Ошибка восстановления БД:', e);
+                        return false;
+                    }
+                }
+
+                exportData() {
+                    return JSON.stringify(this.data, null, 2);
+                }
+
+                importData(jsonData) {
+                    try {
+                        const data = JSON.parse(jsonData);
+                        this.data = data;
+                        this.save();
+                        console.log('📥 Данные импортированы');
+                        return true;
+                    } catch (e) {
+                        console.error('Ошибка импорта:', e);
+                        return false;
+                    }
+                }
+
+                reset() {
+                    this.data = this.getDefaultData();
+                    this.save();
+                    console.log('🔄 База данных сброшена');
+                    return this.data;
+                }
+            }
+
+            // ============================================
+            // ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ
+            // ============================================
+            const db = new Database('genie_store_db');
+            const data = db.data;
+
+            // Синхронизируем переменные с БД
+            let packs = db.getPacks();
+            let spins = db.getSpins();
+            let nextPackId = data.nextPackId || packs.reduce((max, p) => Math.max(max, p.id), 0) + 1;
+
+            // ============================================
+            // ОТОБРАЖЕНИЕ
+            // ============================================
+            function renderProducts() {
+                const container = els.productsContainer;
+                const packsList = db.getPacks();
+                els.productsCount.textContent = packsList.length;
+
+                if (!packsList.length) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">📦</div>
+                            <div class="title">Товаров пока нет</div>
+                            <div class="sub">Загляните позже</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = packsList.map(p => `
+                    <div class="product-item" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">
+                        <div class="product-left">
+                            <div class="product-emoji">${p.emoji || '📦'}</div>
+                            <div class="product-info">
+                                <div class="product-name">${escapeHtml(p.name)}</div>
+                                <div class="product-desc">${escapeHtml(p.desc || 'Без описания')}</div>
+                            </div>
+                        </div>
+                        <div class="product-price">${p.price} <span class="currency">₽</span></div>
+                    </div>
+                `).join('');
+
+                container.querySelectorAll('.product-item').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        selectProduct(id);
+                    });
+                });
+            }
+
+            function renderAdminPacks() {
+                const container = els.adminPacksList;
+                const packsList = db.getPacks();
+
+                if (!packsList.length) {
+                    container.innerHTML = `
+                        <div style="text-align:center;padding:12px 0;color:#333;font-size:13px;">
+                            Паков нет. Добавьте первый!
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = packsList.map(p => `
+                    <div class="admin-row">
+                        <div>
+                            <div class="admin-label" style="font-weight:500;color:#e8e8e8;">${escapeHtml(p.name)}</div>
+                            <div class="admin-value" style="font-size:12px;color:#333;">
+                                ${p.price} ₽ · ${escapeHtml(p.desc || 'Без описания')}
+                                <span class="id">#${p.id}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn btn-danger btn-sm admin-delete-btn" data-id="${p.id}" style="padding:4px 10px;font-size:10px;">✕</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.querySelectorAll('.admin-delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const id = parseInt(this.dataset.id);
+                        const pack = db.getPack(id);
+                        showModal(
+                            'Удалить пак?',
+                            `Вы уверены, что хотите удалить "<strong>${escapeHtml(pack?.name || '')}</strong>"?`,
+                            () => {
+                                db.deletePack(id);
+                                packs = db.getPacks();
+                                renderAll();
+                                showStatus('✅ Пак удален', 'success');
+                            }
+                        );
+                    });
+                });
+            }
+
+            function renderAll() {
+                renderProducts();
+                renderAdminPacks();
+                updateStats();
+                updateSpinsDisplay();
+                updateBuyButton();
+            }
+
+            function updateStats() {
+                const stats = db.getStats();
+                els.totalPacks.textContent = db.getPacks().length;
+                els.totalUsers.textContent = stats.users || 0;
+                els.totalRevenue.textContent = (stats.revenue || 0) + ' ₽';
+            }
+
+            function updateSpinsDisplay() {
+                const spinsData = db.getSpins();
+                const total = spinsData.free + spinsData.paid;
+                els.freeSpins.textContent = spinsData.free;
+                els.paidSpins.textContent = spinsData.paid;
+                els.totalSpins.textContent = total;
+            }
+
+            function updateBuyButton() {
+                if (selectedProduct) {
+                    els.buyBtn.textContent = `🛒 Купить ${selectedProduct.name} за ${selectedProduct.price} ₽`;
+                    els.buyBtn.disabled = false;
+                } else {
+                    els.buyBtn.textContent = '🛒 выберите товар';
+                    els.buyBtn.disabled = true;
+                }
+            }
+
+            function selectProduct(id) {
+                const pack = db.getPack(id);
+                if (!pack) return;
+
+                selectedProduct = pack;
+                document.querySelectorAll('.product-item').forEach(el => {
+                    el.classList.toggle('selected', parseInt(el.dataset.id) === id);
+                });
+                updateBuyButton();
+                showStatus(`Выбран: ${pack.name} (${pack.price} ₽)`, 'info');
+            }
+
+            // ============================================
+            // УТИЛИТЫ
+            // ============================================
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function showStatus(msg, type = 'info') {
+                const el = els.status;
+                el.textContent = msg;
+                el.className = 'status ' + type;
+
+                if (statusTimeout) clearTimeout(statusTimeout);
+                if (type !== 'info') {
+                    statusTimeout = setTimeout(() => {
+                        el.className = 'status';
+                    }, 3500);
+                }
+            }
+
+            let statusTimeout = null;
+
+            // ============================================
+            // МОДАЛКА
+            // ============================================
+            let modalCallback = null;
+
+            function showModal(title, body, onConfirm) {
+                els.modalTitle.textContent = title;
+                els.modalBody.innerHTML = body;
+                els.modalOverlay.classList.add('active');
+                modalCallback = onConfirm;
+            }
+
+            function closeModal() {
+                els.modalOverlay.classList.remove('active');
+                modalCallback = null;
+            }
+
+            els.modalCloseBtn.addEventListener('click', closeModal);
+            els.modalCancelBtn.addEventListener('click', closeModal);
+            els.modalConfirmBtn.addEventListener('click', () => {
+                if (modalCallback) modalCallback();
+                closeModal();
+            });
+
+            els.modalOverlay.addEventListener('click', (e) => {
+                if (e.target === e.currentTarget) closeModal();
+            });
+
+            // ============================================
+            // ВКЛАДКИ
+            // ============================================
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const tab = this.dataset.tab;
+                    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                    const target = document.getElementById(`tab-${tab}`);
+                    if (target) target.classList.add('active');
+                });
+            });
+
+            // ============================================
+            // КНОПКИ
+            // ============================================
+            // Купить
+            els.buyBtn.addEventListener('click', function() {
+                if (!selectedProduct) {
+                    showStatus('❌ Сначала выберите товар', 'error');
+                    return;
+                }
+
+                const data = {
+                    action: 'buy',
+                    product_id: selectedProduct.id,
+                    product_name: selectedProduct.name,
+                    price: selectedProduct.price,
+                    user_id: userId,
+                    username: userName,
+                    timestamp: Date.now()
+                };
+
+                try {
+                    if (tg) {
+                        tg.sendData(JSON.stringify(data));
+                    } else {
+                        console.log('📦 Данные для отправки:', data);
+                        showStatus('⚠️ Telegram не доступен (тестовый режим)', 'warning');
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Ошибка отправки:', e);
+                    showStatus('❌ Ошибка отправки заказа', 'error');
+                    return;
+                }
+
+                showStatus(`✅ Заказ на "${selectedProduct.name}" отправлен!`, 'success');
+
+                this.disabled = true;
+                this.textContent = '✅ Отправлено';
+
+                setTimeout(() => {
+                    this.textContent = '🛒 Купить';
+                    this.disabled = false;
+                    document.querySelectorAll('.product-item').forEach(el => el.classList.remove('selected'));
+                    selectedProduct = null;
+                    updateBuyButton();
+                }, 3000);
+            });
+
+            // Закрыть
+            els.closeBtn.addEventListener('click', () => {
+                try {
+                    if (tg) tg.close();
+                } catch (e) {
+                    console.log('Закрытие не поддерживается');
+                }
+            });
+
+            // Добавить пак
+            els.addPackBtn.addEventListener('click', function() {
+                const name = els.packName.value.trim();
+                const price = parseFloat(els.packPrice.value);
+                const desc = els.packDesc.value.trim();
+                const content = els.packContent.value.trim();
+
+                if (!name || isNaN(price) || price <= 0) {
+                    showStatus('❌ Заполните название и цену', 'error');
+                    return;
+                }
+
+                const newPack = {
+                    id: nextPackId++,
+                    name: name,
+                    price: price,
+                    desc: desc || 'Без описания',
+                    content: content || 'Ссылка',
+                    emoji: name.match(/^.{1,2}/)?.[0] || '📦'
+                };
+
+                db.addPack(newPack);
+                packs = db.getPacks();
+
+                els.packName.value = '';
+                els.packPrice.value = '';
+                els.packDesc.value = '';
+                els.packContent.value = '';
+
+                renderAll();
+                showStatus(`✅ Пак "${name}" добавлен!`, 'success');
+            });
+
+            // Обновить
+            els.refreshAdminBtn.addEventListener('click', () => {
+                packs = db.getPacks();
+                renderAdminPacks();
+                updateStats();
+                showStatus('🔄 Обновлено', 'info');
+            });
+
+            // ============================================
+            // ОБРАБОТКА TELEGRAM
+            // ============================================
+            try {
+                if (tg) {
+                    // Главная кнопка
+                    tg.MainButton.setText('🛒 Купить');
+                    tg.MainButton.show();
+                    tg.MainButton.onClick(() => {
+                        els.buyBtn.click();
+                    });
+
+                    // Данные от бота
+                    tg.onEvent('webAppData', (data) => {
+                        try {
+                            const received = JSON.parse(data);
+                            console.log('📩 Данные от бота:', received);
+
+                            if (received.action === 'update_spins') {
+                                const newSpins = db.updateSpins(received.free, received.paid);
+                                updateSpinsDisplay();
+                                showStatus('🎰 Спины обновлены!', 'success');
+                            }
+
+                            if (received.action === 'order_confirmed') {
+                                showStatus('✅ Заказ подтвержден!', 'success');
+                                if (received.new_spins) {
+                                    db.updateSpins(received.new_spins.free, received.new_spins.paid);
+                                    updateSpinsDisplay();
+                                }
+                                if (received.revenue) {
+                                    const stats = db.getStats();
+                                    db.updateStats({ revenue: (stats.revenue || 0) + received.revenue });
+                                    updateStats();
+                                }
+                            }
+                        } catch (e) {
+                            console.log('Не удалось распарсить данные');
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('⚠️ Ошибка настройки Telegram:', e);
+            }
+
+            // ============================================
+            // ПОЛЬЗОВАТЕЛЬСКИЙ ИНТЕРФЕЙС
+            // ============================================
+            els.userName.textContent = userName;
+            els.userId.textContent = `ID: ${userId}`;
+            els.userAvatar.textContent = userName.charAt(0).toUpperCase();
+
+            if (isAdmin) {
+                els.userRole.textContent = 'ADMIN';
+                els.userRole.classList.add('admin');
+                els.adminTabBtn.style.display = 'block';
+            }
+
+            // ============================================
+            // ИНИЦИАЛИЗАЦИЯ
+            // ============================================
+            renderAll();
+
+            console.log('✅ Genie Store загружен');
+            console.log('📊 База данных:', db.data);
+            console.log('👤 Пользователь:', { id: userId, name: userName, isAdmin });
+            console.log('📦 Паков:', db.getPacks().length);
+            console.log('🎰 Спины:', db.getSpins());
+
+            // ============================================
+            // ЭКСПОРТ (для отладки)
+            // ============================================
+            window.__genie = {
+                db: db,
+                packs: db.getPacks,
+                spins: db.getSpins,
+                addPack: (name, price, desc, content) => {
+                    const pack = { id: nextPackId++, name, price, desc, content };
+                    db.addPack(pack);
+                    renderAll();
+                    return pack;
+                },
+                removePack: (id) => {
+                    db.deletePack(id);
+                    renderAll();
+                },
+                updateSpins: (free, paid) => {
+                    db.updateSpins(free, paid);
+                    updateSpinsDisplay();
+                }
+            };
+
+            console.log('💡 Для работы с БД используйте window.__genie');
+
+            // ============================================
+            // АВТОСОХРАНЕНИЕ ПРИ ЗАКРЫТИИ
+            // ============================================
+            window.addEventListener('beforeunload', () => {
+                db.save();
+                console.log('💾 Данные сохранены перед закрытием');
+            });
+
+        })();
     </script>
 </body>
 </html>
