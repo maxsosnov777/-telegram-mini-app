@@ -272,7 +272,7 @@
         }
 
         /* ============================================
-           ТОВАРЫ (НОВЫЙ ДИЗАЙН)
+           ТОВАРЫ
            ============================================ */
         .section-header {
             display: flex;
@@ -379,14 +379,6 @@
         .product-price .currency {
             font-size: 11px;
             color: #444;
-        }
-
-        .product-price .old-price {
-            font-size: 11px;
-            color: #333;
-            text-decoration: line-through;
-            font-weight: 400;
-            display: block;
         }
 
         .empty-state {
@@ -994,6 +986,7 @@
 
                 <div class="admin-actions">
                     <button class="btn btn-secondary btn-sm" id="refreshAdminBtn">🔄 обновить</button>
+                    <button class="btn btn-success btn-sm" id="syncDbBtn">☁️ синхронизация</button>
                 </div>
             </div>
         </div>
@@ -1039,22 +1032,13 @@
             </div>
 
             <div class="settings-card">
-                <div class="panel-title" style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">💾 база данных</div>
+                <div class="panel-title" style="font-size:11px;color:#444;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">💾 синхронизация</div>
                 <div class="setting-row">
                     <span class="setting-label">Статус</span>
-                    <span class="setting-value" style="color:#55aa55;">✅ активна</span>
-                </div>
-                <div class="setting-row">
-                    <span class="setting-label">Паков</span>
-                    <span class="setting-value" id="dbPacksCount">0</span>
-                </div>
-                <div class="setting-row">
-                    <span class="setting-label">Покупок</span>
-                    <span class="setting-value" id="dbOrdersCount">0</span>
+                    <span class="setting-value" style="color:#55aa55;">✅ подключено к боту</span>
                 </div>
                 <div class="admin-actions" style="margin-top:10px;">
-                    <button class="btn btn-secondary btn-sm" onclick="exportData()">📤 Экспорт</button>
-                    <button class="btn btn-danger btn-sm" onclick="resetDB()">🗑️ Сброс</button>
+                    <button class="btn btn-success btn-sm" onclick="syncWithBot()">☁️ Синхронизировать</button>
                 </div>
             </div>
         </div>
@@ -1065,7 +1049,7 @@
         <div class="footer">
             <span>© 2026 Genie Store</span>
             <span class="dot">·</span>
-            <span>v3.0</span>
+            <span>v3.1</span>
             <span class="dot">·</span>
             <span>⚡ Telegram</span>
         </div>
@@ -1094,17 +1078,26 @@
             // TELEGRAM
             // ============================================
             const tg = window.Telegram?.WebApp;
-            try { if (tg) { tg.ready();
-                    tg.expand(); } } catch (e) {}
+            let tgReady = false;
+            try {
+                if (tg) {
+                    tg.ready();
+                    tg.expand();
+                    tgReady = true;
+                    console.log('✅ Telegram WebApp инициализирован');
+                }
+            } catch (e) { console.warn('⚠️ Telegram не доступен'); }
 
             // ============================================
-            // ПОЛЬЗОВАТЕЛЬ И АДМИНЫ
+            // ПОЛЬЗОВАТЕЛЬ
             // ============================================
             const user = tg?.initDataUnsafe?.user || null;
             let userId = user?.id || 'Неизвестно';
             let userName = user?.first_name || user?.username || 'Гость';
 
-            // СПИСОК АДМИНОВ (ТОЛЬКО ЭТИ ID МОГУТ РЕДАКТИРОВАТЬ)
+            // ============================================
+            // АДМИНЫ (ТОЛЬКО ЭТИ ID МОГУТ РЕДАКТИРОВАТЬ)
+            // ============================================
             const ADMIN_IDS = [8933996666, 8477554545, 123456789];
             const isAdmin = ADMIN_IDS.includes(Number(userId));
 
@@ -1112,8 +1105,6 @@
             // DOM ЭЛЕМЕНТЫ
             // ============================================
             const $ = (s) => document.querySelector(s);
-            const $$ = (s) => document.querySelectorAll(s);
-
             const els = {
                 userName: $('#userName'),
                 userId: $('#userId'),
@@ -1137,12 +1128,11 @@
                 packContent: $('#packContent'),
                 addPackBtn: $('#addPackBtn'),
                 refreshAdminBtn: $('#refreshAdminBtn'),
+                syncDbBtn: $('#syncDbBtn'),
                 adminTabBtn: $('#adminTabBtn'),
                 historyTabBtn: $('#historyTabBtn'),
                 historyList: $('#historyList'),
                 adminsList: $('#adminsList'),
-                dbPacksCount: $('#dbPacksCount'),
-                dbOrdersCount: $('#dbOrdersCount'),
                 modalOverlay: $('#modalOverlay'),
                 modalTitle: $('#modalTitle'),
                 modalBody: $('#modalBody'),
@@ -1152,138 +1142,93 @@
             };
 
             // ============================================
-            // БАЗА ДАННЫХ
+            // ДАННЫЕ
             // ============================================
-            class Database {
-                constructor(name = 'genie_store_db') {
-                    this.dbName = name;
-                    this.data = null;
-                    this.load();
-                }
+            let packs = [];
+            let spins = { free: 10, paid: 0 };
+            let history = [];
+            let selectedProduct = null;
+            let statusTimeout = null;
+            let isSyncing = false;
 
-                load() {
-                    try {
-                        const saved = localStorage.getItem(this.dbName);
-                        if (saved) {
-                            this.data = JSON.parse(saved);
-                        } else {
-                            this.data = this.getDefaultData();
-                            this.save();
-                        }
-                    } catch (e) {
-                        this.data = this.getDefaultData();
-                        this.save();
+            // ============================================
+            // ЗАПРОС ДАННЫХ У БОТА
+            // ============================================
+            function syncWithBot() {
+                if (isSyncing) return;
+                isSyncing = true;
+                showStatus('☁️ Синхронизация с ботом...', 'info');
+
+                try {
+                    if (tg) {
+                        tg.sendData(JSON.stringify({ action: 'get_data' }));
+                        // Ждем ответ через 3 секунды, если нет - показываем ошибку
+                        setTimeout(() => {
+                            isSyncing = false;
+                            if (!packs.length) {
+                                showStatus('⚠️ Бот не ответил. Проверьте подключение.', 'warning');
+                            }
+                        }, 5000);
+                    } else {
+                        showStatus('⚠️ Telegram не доступен', 'warning');
+                        isSyncing = false;
                     }
-                    return this.data;
-                }
-
-                save() {
-                    try {
-                        localStorage.setItem(this.dbName, JSON.stringify(this.data));
-                        return true;
-                    } catch (e) { return false; }
-                }
-
-                getDefaultData() {
-                    return {
-                        packs: [
-                            { id: 1, name: '🍼 Пробник', price: 250, desc: '13 ГБ детского питания. Отличный вариант для знакомства с продукцией.', content: 'https://t.me/...', emoji: '🍼' },
-                            { id: 2, name: '🍱 4 ТБ детского', price: 499, desc: 'Большой набор детского питания высокого качества. 4 ТБ разнообразного контента.', content: 'https://t.me/...', emoji: '🍱' },
-                        ],
-                        spins: { free: 10, paid: 0 },
-                        stats: { users: 0, revenue: 0 },
-                        history: [],
-                        nextPackId: 3,
-                        admins: [8933996666, 8477554545, 123456789],
-                        version: '3.0'
-                    };
-                }
-
-                getPacks() { return this.data.packs || []; }
-                getSpins() { return this.data.spins || { free: 10, paid: 0 }; }
-                getStats() { return this.data.stats || { users: 0, revenue: 0 }; }
-                getHistory() { return this.data.history || []; }
-                getAdmins() { return this.data.admins || []; }
-
-                addPack(pack) {
-                    if (!pack.id) { pack.id = this.data.nextPackId || 1;
-                        this.data.nextPackId = pack.id + 1; }
-                    if (!pack.emoji) { pack.emoji = pack.name.match(/^.{1,2}/)?.[0] || '📦'; }
-                    this.data.packs.push(pack);
-                    this.save();
-                    return pack;
-                }
-
-                deletePack(id) {
-                    this.data.packs = this.data.packs.filter(p => p.id !== id);
-                    this.save();
-                    return true;
-                }
-
-                addOrder(userId, userName, productName, price) {
-                    const order = {
-                        id: Date.now(),
-                        user_id: userId,
-                        username: userName,
-                        product: productName,
-                        price: price,
-                        date: new Date().toLocaleString('ru-RU'),
-                        timestamp: Date.now()
-                    };
-                    this.data.history.push(order);
-                    this.data.stats.revenue = (this.data.stats.revenue || 0) + price;
-                    this.data.stats.users = this.data.stats.users || 0;
-                    // Увеличиваем счетчик пользователей если новый
-                    const existing = this.data.history.filter(h => h.user_id === userId);
-                    if (existing.length <= 1) {
-                        this.data.stats.users = (this.data.stats.users || 0) + 1;
-                    }
-                    this.save();
-                    return order;
-                }
-
-                updateSpins(free, paid) {
-                    if (free !== undefined) this.data.spins.free = free;
-                    if (paid !== undefined) this.data.spins.paid = paid;
-                    this.save();
-                    return this.data.spins;
-                }
-
-                reset() {
-                    this.data = this.getDefaultData();
-                    this.save();
-                    return this.data;
-                }
-
-                exportData() {
-                    return JSON.stringify(this.data, null, 2);
+                } catch (e) {
+                    console.error('Ошибка синхронизации:', e);
+                    showStatus('❌ Ошибка синхронизации', 'error');
+                    isSyncing = false;
                 }
             }
 
             // ============================================
-            // ИНИЦИАЛИЗАЦИЯ БД
+            // ОБРАБОТКА ДАННЫХ ОТ БОТА
             // ============================================
-            const db = new Database();
-            let packs = db.getPacks();
-            let spins = db.getSpins();
-            let selectedProduct = null;
-            let statusTimeout = null;
+            try {
+                if (tg) {
+                    tg.onEvent('webAppData', (data) => {
+                        try {
+                            const received = JSON.parse(data);
+                            console.log('📩 Данные от бота:', received);
+
+                            if (received.packs) {
+                                packs = received.packs;
+                                spins = received.spins || spins;
+                                history = received.history || [];
+                                renderAll();
+                                showStatus('✅ Данные обновлены!', 'success');
+                                isSyncing = false;
+                            }
+
+                            if (received.action === 'order_confirmed') {
+                                showStatus('✅ Заказ подтвержден!', 'success');
+                                if (received.spins) {
+                                    spins = received.spins;
+                                    updateSpinsDisplay();
+                                }
+                                syncWithBot(); // Обновляем данные
+                            }
+                        } catch (e) {
+                            console.log('Не удалось распарсить данные');
+                            isSyncing = false;
+                        }
+                    });
+                }
+            } catch (e) { console.warn('Ошибка настройки WebApp:', e); }
 
             // ============================================
             // ОТОБРАЖЕНИЕ
             // ============================================
             function renderProducts() {
                 const container = els.productsContainer;
-                const packsList = db.getPacks();
-                els.productsCount.textContent = packsList.length;
+                els.productsCount.textContent = packs.length;
 
-                if (!packsList.length) {
+                if (!packs.length) {
                     container.innerHTML =
                         `<div class="empty-state"><div class="icon">📦</div><div class="title">Товаров пока нет</div><div class="sub">Загляните позже</div></div>`;
                     return;
                 }
 
-                container.innerHTML = packsList.map(p => `
+                container.innerHTML = packs.map(p => `
                     <div class="product-item" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">
                         <div class="product-icon">${p.emoji || '📦'}</div>
                         <div class="product-info">
@@ -1304,43 +1249,25 @@
 
             function renderAdminPacks() {
                 const container = els.adminPacksList;
-                const packsList = db.getPacks();
 
-                if (!packsList.length) {
+                if (!packs.length) {
                     container.innerHTML =
-                        `<div style="text-align:center;padding:10px 0;color:#333;font-size:12px;">Паков нет. Добавьте первый!</div>`;
+                        `<div style="text-align:center;padding:10px 0;color:#333;font-size:12px;">Паков нет.</div>`;
                     return;
                 }
 
-                container.innerHTML = packsList.map(p => `
+                container.innerHTML = packs.map(p => `
                     <div class="admin-row">
                         <div>
                             <div class="admin-label" style="font-weight:500;color:#e8e8e8;">${escapeHtml(p.name)}</div>
-                            <div class="admin-value" style="font-size:11px;color:#333;">${p.price} ₽ · ${escapeHtml(p.desc || 'Без описания')} <span class="id">#${p.id}</span></div>
+                            <div class="admin-value" style="font-size:11px;color:#333;">${p.price} ₽ <span class="id">#${p.id}</span></div>
                         </div>
-                        ${isAdmin ? `<button class="btn btn-danger btn-sm admin-delete-btn" data-id="${p.id}">✕</button>` : ''}
                     </div>
                 `).join('');
-
-                if (isAdmin) {
-                    container.querySelectorAll('.admin-delete-btn').forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            const id = parseInt(this.dataset.id);
-                            const pack = db.getPacks().find(p => p.id === id);
-                            showModal('Удалить пак?', `Удалить "<strong>${escapeHtml(pack?.name || '')}</strong>"?`, () => {
-                                db.deletePack(id);
-                                renderAll();
-                                showStatus('✅ Пак удален', 'success');
-                            });
-                        });
-                    });
-                }
             }
 
             function renderHistory() {
                 const container = els.historyList;
-                const history = db.getHistory();
 
                 if (!history.length) {
                     container.innerHTML =
@@ -1351,8 +1278,8 @@
                 container.innerHTML = history.slice().reverse().map(h => `
                     <div class="history-item">
                         <div>
-                            <div class="history-user">${escapeHtml(h.username)}</div>
-                            <div class="history-date">${h.date}</div>
+                            <div class="history-user">${escapeHtml(h.username || h.user || 'Пользователь')}</div>
+                            <div class="history-date">${h.date || 'недавно'}</div>
                         </div>
                         <div class="history-product">${escapeHtml(h.product)}</div>
                         <div class="history-price">${h.price} ₽</div>
@@ -1362,16 +1289,10 @@
 
             function renderAdmins() {
                 const container = els.adminsList;
-                const admins = db.getAdmins();
-
+                const admins = ADMIN_IDS;
                 container.innerHTML = admins.map(id =>
                     `<div class="admin-row"><span class="admin-label">👤 ${id}</span></div>`
                 ).join('');
-            }
-
-            function renderSettings() {
-                els.dbPacksCount.textContent = db.getPacks().length;
-                els.dbOrdersCount.textContent = db.getHistory().length;
             }
 
             function renderAll() {
@@ -1379,12 +1300,9 @@
                 renderAdminPacks();
                 renderHistory();
                 renderAdmins();
-                renderSettings();
                 updateStats();
                 updateSpinsDisplay();
                 updateBuyButton();
-
-                // Показываем админ-вкладки только админам
                 if (isAdmin) {
                     els.adminTabBtn.style.display = 'block';
                     els.historyTabBtn.style.display = 'block';
@@ -1392,17 +1310,16 @@
             }
 
             function updateStats() {
-                const stats = db.getStats();
-                els.totalPacks.textContent = db.getPacks().length;
-                els.totalUsers.textContent = stats.users || 0;
-                els.totalRevenue.textContent = (stats.revenue || 0) + ' ₽';
+                els.totalPacks.textContent = packs.length;
+                els.totalUsers.textContent = history.length ? new Set(history.map(h => h.user_id || h.user)).size : 0;
+                const revenue = history.reduce((sum, h) => sum + (h.price || 0), 0);
+                els.totalRevenue.textContent = revenue + ' ₽';
             }
 
             function updateSpinsDisplay() {
-                const spinsData = db.getSpins();
-                const total = spinsData.free + spinsData.paid;
-                els.freeSpins.textContent = spinsData.free;
-                els.paidSpins.textContent = spinsData.paid;
+                const total = (spins.free || 0) + (spins.paid || 0);
+                els.freeSpins.textContent = spins.free || 10;
+                els.paidSpins.textContent = spins.paid || 0;
                 els.totalSpins.textContent = total;
             }
 
@@ -1417,7 +1334,7 @@
             }
 
             function selectProduct(id) {
-                const pack = db.getPacks().find(p => p.id === id);
+                const pack = packs.find(p => p.id === id);
                 if (!pack) return;
                 selectedProduct = pack;
                 document.querySelectorAll('.product-item').forEach(el => {
@@ -1451,7 +1368,6 @@
                 navigator.clipboard?.writeText(text).then(() => {
                     showStatus('✅ Скопировано!', 'success');
                 }).catch(() => {
-                    // fallback
                     const el = document.createElement('textarea');
                     el.value = text;
                     document.body.appendChild(el);
@@ -1462,25 +1378,7 @@
                 });
             };
 
-            window.exportData = function() {
-                const data = db.exportData();
-                const blob = new Blob([data], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `genie_store_backup_${Date.now()}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                showStatus('✅ Данные экспортированы!', 'success');
-            };
-
-            window.resetDB = function() {
-                showModal('Сброс базы данных?', 'Все данные будут удалены без возможности восстановления!', () => {
-                    db.reset();
-                    renderAll();
-                    showStatus('🔄 База данных сброшена', 'warning');
-                });
-            };
+            window.syncWithBot = syncWithBot;
 
             // ============================================
             // МОДАЛКА
@@ -1536,22 +1434,30 @@
                     action: 'buy',
                     product_id: selectedProduct.id,
                     product_name: selectedProduct.name,
-                    price: selectedProduct.price,
-                    user_id: userId,
-                    username: userName,
-                    timestamp: Date.now()
+                    price: selectedProduct.price
                 };
 
                 try {
                     if (tg) {
                         tg.sendData(JSON.stringify(data));
+                        showStatus(`✅ Заказ на "${selectedProduct.name}" отправлен!`, 'success');
+                        // Добавляем в локальную историю
+                        history.push({
+                            user: userName,
+                            user_id: userId,
+                            product: selectedProduct.name,
+                            price: selectedProduct.price,
+                            date: new Date().toLocaleString('ru-RU')
+                        });
+                        renderHistory();
+                        updateStats();
+                    } else {
+                        showStatus('⚠️ Бот не доступен', 'warning');
                     }
-                } catch (e) { console.error(e); }
-
-                // Добавляем в историю
-                db.addOrder(userId, userName, selectedProduct.name, selectedProduct.price);
-
-                showStatus(`✅ Заказ на "${selectedProduct.name}" отправлен!`, 'success');
+                } catch (e) {
+                    console.error(e);
+                    showStatus('❌ Ошибка отправки', 'error');
+                }
 
                 this.disabled = true;
                 this.textContent = '✅ Отправлено';
@@ -1562,9 +1468,6 @@
                     document.querySelectorAll('.product-item').forEach(el => el.classList.remove('selected'));
                     selectedProduct = null;
                     updateBuyButton();
-                    renderHistory();
-                    renderSettings();
-                    updateStats();
                 }, 2000);
             });
 
@@ -1572,61 +1475,12 @@
 
             els.addPackBtn.addEventListener('click', function() {
                 if (!isAdmin) { showStatus('⛔ Нет доступа!', 'error'); return; }
-
-                const name = els.packName.value.trim();
-                const price = parseFloat(els.packPrice.value);
-                const desc = els.packDesc.value.trim();
-                const content = els.packContent.value.trim();
-
-                if (!name || isNaN(price) || price <= 0) {
-                    showStatus('❌ Заполните название и цену', 'error');
-                    return;
-                }
-
-                const newPack = {
-                    id: db.data.nextPackId || 1,
-                    name: name,
-                    price: price,
-                    desc: desc || 'Без описания',
-                    content: content || 'Ссылка',
-                    emoji: name.match(/^.{1,2}/)?.[0] || '📦'
-                };
-
-                db.addPack(newPack);
-                els.packName.value = '';
-                els.packPrice.value = '';
-                els.packDesc.value = '';
-                els.packContent.value = '';
-                renderAll();
-                showStatus(`✅ Пак "${name}" добавлен!`, 'success');
+                showStatus('⚠️ Добавление паков только через бота', 'warning');
             });
 
-            els.refreshAdminBtn.addEventListener('click', () => {
-                renderAll();
-                showStatus('🔄 Обновлено', 'info');
-            });
+            els.refreshAdminBtn.addEventListener('click', () => { syncWithBot(); });
 
-            // ============================================
-            // TELEGRAM
-            // ============================================
-            try {
-                if (tg) {
-                    tg.MainButton.setText('🛒 Купить');
-                    tg.MainButton.show();
-                    tg.MainButton.onClick(() => { els.buyBtn.click(); });
-
-                    tg.onEvent('webAppData', (data) => {
-                        try {
-                            const received = JSON.parse(data);
-                            if (received.action === 'update_spins') {
-                                db.updateSpins(received.free, received.paid);
-                                updateSpinsDisplay();
-                                showStatus('🎰 Спины обновлены!', 'success');
-                            }
-                        } catch (e) {}
-                    });
-                }
-            } catch (e) {}
+            els.syncDbBtn.addEventListener('click', () => { syncWithBot(); });
 
             // ============================================
             // ПОЛЬЗОВАТЕЛЬ
@@ -1647,16 +1501,30 @@
             // ============================================
             renderAll();
 
-            console.log('✅ Genie Store v3.0 загружен');
+            // Автосинхронизация при загрузке
+            setTimeout(() => {
+                syncWithBot();
+            }, 1000);
+
+            // Периодическая синхронизация (каждые 30 секунд)
+            setInterval(() => {
+                if (!isSyncing) {
+                    syncWithBot();
+                }
+            }, 30000);
+
+            console.log('✅ Genie Store v3.1 загружен (с БД бота)');
             console.log('👤 Пользователь:', { id: userId, name: userName, isAdmin });
-            console.log('📦 Паков:', db.getPacks().length);
-            console.log('📜 Покупок:', db.getHistory().length);
-            console.log('👥 Админы:', db.getAdmins());
 
-            window.__db = db;
-
-            // Автосохранение
-            window.addEventListener('beforeunload', () => { db.save(); });
+            // ============================================
+            // ГЛОБАЛЬНЫЙ ДОСТУП
+            // ============================================
+            window.__store = {
+                sync: syncWithBot,
+                packs: () => packs,
+                spins: () => spins,
+                history: () => history
+            };
 
         })();
     </script>
