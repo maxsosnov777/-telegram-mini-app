@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Genie Store</title>
     <style>
+        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -13,164 +14,324 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
+            background: #0a0a0a;
             min-height: 100vh;
-            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* ===== ФОН С МЕЛКИМИ УЗОРАМИ ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 30% 60%, rgba(255,255,255,0.02) 1px, transparent 1px),
+                radial-gradient(circle at 50% 80%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 70% 30%, rgba(255,255,255,0.02) 1px, transparent 1px),
+                radial-gradient(circle at 90% 70%, rgba(255,255,255,0.03) 1px, transparent 1px),
+                radial-gradient(circle at 15% 90%, rgba(255,255,255,0.02) 1px, transparent 1px),
+                radial-gradient(circle at 85% 10%, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px, 80px 80px, 100px 100px, 70px 70px, 90px 90px, 50px 50px, 120px 120px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Дополнительный слой узоров */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 2px, transparent 2px, transparent 8px),
+                repeating-linear-gradient(-45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 2px, transparent 2px, transparent 8px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: 0;
         }
         
         .container {
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto;
+            padding: 16px 16px 80px;
+            position: relative;
+            z-index: 1;
         }
         
+        /* ===== ШАПКА ===== */
         .header {
             text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
         }
         
         .header h1 {
-            font-size: 28px;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ffffff 0%, #aaaaaa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: none;
         }
         
+        .header .subtitle {
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        
+        /* ===== КАРТОЧКА БАЛАНСА ===== */
         .balance-card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            padding: 24px 20px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
+            pointer-events: none;
         }
         
         .balance-card .amount {
-            font-size: 36px;
-            font-weight: bold;
-            color: #ffd700;
+            font-size: 42px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: 2px;
         }
         
         .balance-card .label {
-            font-size: 14px;
-            color: #888;
-            margin-top: 5px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            text-align: center;
+            margin-top: 2px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
         
         .balance-card .sub {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-top: 10px;
-            font-size: 13px;
-            color: #aaa;
+            gap: 40px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
         
-        .balance-card .sub span {
-            color: #fff;
+        .balance-card .sub .item {
+            text-align: center;
         }
         
+        .balance-card .sub .item .value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .balance-card .sub .item .label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        
+        .balance-card .sub .item .value.paid { color: #ffffff; }
+        .balance-card .sub .item .value.free { color: rgba(255,255,255,0.6); }
+        
+        /* ===== КНОПКИ-ТАБЫ ===== */
         .tabs {
             display: flex;
-            gap: 5px;
+            gap: 8px;
             margin-bottom: 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 5px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 4px;
+            border: 1px solid rgba(255,255,255,0.04);
         }
         
         .tab {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             border: none;
             background: transparent;
-            color: #888;
-            border-radius: 8px;
+            color: rgba(255,255,255,0.3);
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
         }
         
         .tab.active {
-            background: rgba(255,215,0,0.15);
-            color: #ffd700;
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         
         .tab:hover {
-            color: #fff;
+            color: rgba(255,255,255,0.7);
         }
         
+        .tab .icon {
+            margin-right: 6px;
+        }
+        
+        /* ===== КАРТОЧКИ ТОВАРОВ ===== */
         .products {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
         
         .product-card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 18px 20px;
+            border: 1px solid rgba(255,255,255,0.05);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        
+        .product-card .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
         }
         
         .product-card .name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 17px;
+            font-weight: 600;
+            color: #ffffff;
         }
         
         .product-card .price {
-            color: #ffd700;
-            font-size: 22px;
-            font-weight: bold;
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+        
+        .product-card .price .currency {
+            font-size: 14px;
+            color: rgba(255,255,255,0.4);
         }
         
         .product-card .desc {
-            color: #aaa;
-            font-size: 14px;
-            margin: 10px 0;
-            line-height: 1.4;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.5;
+            margin-bottom: 14px;
         }
         
         .product-card .buy-btn {
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            border: none;
-            color: #1a1a2e;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
             width: 100%;
-            transition: all 0.3s ease;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
             font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.06);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card .buy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .product-card .buy-btn:hover::before {
+            left: 100%;
         }
         
         .product-card .buy-btn:active {
             transform: scale(0.97);
+            background: rgba(255,255,255,0.1);
         }
         
-        .product-card .buy-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .product-card .buy-btn .emoji {
+            margin-right: 8px;
         }
         
+        /* ===== ИСТОРИЯ ===== */
         .history {
-            margin-top: 10px;
+            margin-top: 4px;
         }
         
         .history-item {
-            background: rgba(255,255,255,0.03);
-            padding: 12px 15px;
-            border-radius: 10px;
+            background: rgba(255,255,255,0.02);
+            padding: 14px 16px;
+            border-radius: 12px;
             margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 3px solid #ffd700;
+            border-left: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
         }
         
         .history-item .info {
@@ -179,34 +340,35 @@
         
         .history-item .info .product {
             font-size: 14px;
+            color: #ffffff;
         }
         
         .history-item .info .date {
-            color: #666;
             font-size: 11px;
+            color: rgba(255,255,255,0.25);
             margin-top: 2px;
         }
         
         .history-item .price {
-            color: #ffd700;
-            font-weight: bold;
             font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
         }
         
+        /* ===== ЗАГРУЗКА ===== */
         .loading {
             text-align: center;
-            padding: 40px 0;
-            color: #888;
+            padding: 50px 0;
         }
         
         .spinner {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 20px;
-            border: 3px solid rgba(255,215,0,0.1);
-            border-top: 3px solid #ffd700;
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 16px;
+            border: 2px solid rgba(255,255,255,0.05);
+            border-top: 2px solid rgba(255,255,255,0.5);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
         
         @keyframes spin {
@@ -214,192 +376,271 @@
             100% { transform: rotate(360deg); }
         }
         
-        .empty {
-            text-align: center;
-            color: #666;
-            padding: 30px 0;
+        .loading-text {
+            color: rgba(255,255,255,0.3);
+            font-size: 14px;
+            letter-spacing: 1px;
         }
         
+        .empty {
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            padding: 40px 0;
+            font-size: 15px;
+        }
+        
+        /* ===== TOAST УВЕДОМЛЕНИЯ ===== */
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 14px 28px;
+            border-radius: 14px;
             font-weight: 500;
+            font-size: 14px;
             z-index: 1000;
-            animation: slideUp 0.3s ease;
             max-width: 90%;
             text-align: center;
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
         }
         
         .toast.success {
-            background: rgba(46, 213, 115, 0.9);
-            color: #fff;
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
         }
         
         .toast.error {
-            background: rgba(255, 71, 87, 0.9);
-            color: #fff;
+            background: rgba(255,70,70,0.15);
+            color: #ff6b6b;
+            border-color: rgba(255,70,70,0.1);
         }
         
         .toast.info {
-            background: rgba(54, 164, 235, 0.9);
-            color: #fff;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.7);
         }
         
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateX(-50%) translateY(20px);
+                transform: translateX(-50%) translateY(30px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateX(-50%) translateY(0);
+                transform: translateX(-50%) translateY(0) scale(1);
             }
         }
         
-        .hidden {
-            display: none !important;
-        }
-        
+        /* ===== КНОПКА ОБНОВЛЕНИЯ ===== */
         .refresh-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #aaa;
-            padding: 8px 16px;
-            border-radius: 8px;
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+            color: rgba(255,255,255,0.3);
+            font-size: 14px;
             cursor: pointer;
-            font-size: 13px;
             transition: all 0.3s ease;
+            margin-top: 16px;
+            letter-spacing: 1px;
         }
         
         .refresh-btn:hover {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.5);
         }
         
+        .refresh-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* ===== РЕФЕРАЛЬНАЯ ССЫЛКА ===== */
         .referral-section {
-            background: rgba(255,215,0,0.05);
-            border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.04);
         }
         
         .referral-section .title {
-            color: #ffd700;
-            font-weight: bold;
+            font-size: 13px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
             margin-bottom: 10px;
         }
         
         .referral-link {
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            word-break: break-all;
-            color: #aaa;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
         
-        .referral-link button {
-            background: #ffd700;
-            border: none;
-            color: #1a1a2e;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
+        .referral-link .link {
             font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            word-break: break-all;
+            flex: 1;
+            font-family: monospace;
         }
         
-        .referral-link button:active {
+        .referral-link .copy-btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .referral-link .copy-btn:active {
             transform: scale(0.95);
+            background: rgba(255,255,255,0.06);
+        }
+        
+        /* ===== СКРЫТЫЕ ЭЛЕМЕНТЫ ===== */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 400px) {
+            .container { padding: 12px 12px 70px; }
+            .header h1 { font-size: 22px; }
+            .balance-card .amount { font-size: 34px; }
+            .product-card { padding: 14px 16px; }
+            .product-card .name { font-size: 15px; }
+            .product-card .price { font-size: 17px; }
+        }
+        
+        /* ===== СКРОЛЛ ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
     <div class="container" id="app">
+        <!-- ШАПКА -->
         <div class="header">
-            <h1>🛍 Genie Store</h1>
+            <h1>✦ GENIE STORE</h1>
+            <div class="subtitle">Premium Collection</div>
         </div>
         
-        <!-- Баланс -->
-        <div class="balance-card" id="balanceCard">
+        <!-- БАЛАНС -->
+        <div class="balance-card">
             <div class="amount" id="balanceAmount">0</div>
-            <div class="label">🎰 Всего спинов</div>
+            <div class="label">Available Spins</div>
             <div class="sub">
-                <div>💎 Платные: <span id="paidSpins">0</span></div>
-                <div>🎁 Бесплатные: <span id="freeSpins">0</span></div>
+                <div class="item">
+                    <div class="value paid" id="paidSpins">0</div>
+                    <div class="label">Paid</div>
+                </div>
+                <div class="item">
+                    <div class="value free" id="freeSpins">0</div>
+                    <div class="label">Free</div>
+                </div>
             </div>
         </div>
         
-        <!-- Реферальная ссылка -->
+        <!-- РЕФЕРАЛЬНАЯ ССЫЛКА -->
         <div class="referral-section" id="referralSection" style="display:none;">
-            <div class="title">🔗 Пригласи друга</div>
+            <div class="title">✦ Invite Friend</div>
             <div class="referral-link">
-                <span id="referralLink">Загрузка...</span>
-                <button onclick="copyReferral()">📋</button>
+                <span class="link" id="referralLink">Loading...</span>
+                <button class="copy-btn" onclick="copyReferral()">Copy</button>
             </div>
         </div>
         
-        <!-- Вкладки -->
+        <!-- ВКЛАДКИ -->
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('products')">📦 Товары</button>
-            <button class="tab" onclick="switchTab('history')">📜 История</button>
+            <button class="tab active" onclick="switchTab('products')">
+                <span class="icon">✦</span> Products
+            </button>
+            <button class="tab" onclick="switchTab('history')">
+                <span class="icon">◈</span> History
+            </button>
         </div>
         
-        <!-- Товары -->
+        <!-- ТОВАРЫ -->
         <div id="productsTab">
             <div class="products" id="productsContainer">
                 <div class="loading">
                     <div class="spinner"></div>
-                    Загрузка товаров...
+                    <div class="loading-text">Loading...</div>
                 </div>
             </div>
         </div>
         
-        <!-- История -->
+        <!-- ИСТОРИЯ -->
         <div id="historyTab" class="hidden">
             <div class="history" id="historyContainer">
                 <div class="loading">
                     <div class="spinner"></div>
-                    Загрузка истории...
+                    <div class="loading-text">Loading...</div>
                 </div>
             </div>
         </div>
         
-        <button class="refresh-btn" onclick="loadData()" style="margin-top:20px;width:100%;">
-            🔄 Обновить данные
-        </button>
+        <!-- КНОПКА ОБНОВЛЕНИЯ -->
+        <button class="refresh-btn" onclick="loadData()">⟳ Refresh</button>
     </div>
     
     <script src="https://telegram-web-app.js.org/telegram-web-app.js"></script>
     <script>
-        let userData = null;
         let tg = null;
+        let currentTab = 'products';
         
-        // Инициализация
+        // ============================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ============================================
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Подключаемся к Telegram
+            console.log('✦ Genie Store loaded');
+            
             if (window.Telegram && window.Telegram.WebApp) {
                 tg = window.Telegram.WebApp;
                 tg.ready();
+                console.log('✓ Telegram WebApp connected');
+                
+                tg.onEvent('message', function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        handleData(data);
+                    } catch (e) {
+                        console.error('Parse error:', e);
+                    }
+                });
+            } else {
+                console.log('⚠ Telegram WebApp not found, using mock mode');
             }
             
-            // Загружаем данные
-            loadData();
-            
-            // Автообновление каждые 30 секунд
-            setInterval(loadData, 30000);
+            setTimeout(loadData, 300);
         });
         
-        // Переключение вкладок
+        // ============================================
+        // ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+        // ============================================
+        
         function switchTab(tab) {
+            currentTab = tab;
+            
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab')[tab === 'products' ? 0 : 1].classList.add('active');
             
@@ -411,66 +652,68 @@
             }
         }
         
-        // Загрузка данных
+        // ============================================
+        // ЗАГРУЗКА ДАННЫХ
+        // ============================================
+        
         function loadData() {
-            // Показываем загрузку
+            console.log('⟳ Loading data...');
+            
             document.getElementById('productsContainer').innerHTML = `
                 <div class="loading">
                     <div class="spinner"></div>
-                    Загрузка...
+                    <div class="loading-text">Loading...</div>
                 </div>
             `;
             
-            // Запрашиваем данные через Telegram WebApp
             if (tg) {
-                tg.sendData(JSON.stringify({
-                    action: 'get_data'
-                }));
+                tg.sendData(JSON.stringify({ action: 'get_data' }));
             } else {
-                // Для тестирования в браузере
                 loadMockData();
             }
         }
         
-        // Загрузка истории
         function loadHistory() {
             if (tg) {
-                tg.sendData(JSON.stringify({
-                    action: 'get_history'
-                }));
+                tg.sendData(JSON.stringify({ action: 'get_history' }));
+            } else {
+                loadMockHistory();
             }
         }
         
-        // Обработка данных от бота
-        window.handleWebAppData = function(data) {
-            try {
-                const parsed = typeof data === 'string' ? JSON.parse(data) : data;
-                
-                if (parsed.type === 'data') {
-                    updateUI(parsed);
-                } else if (parsed.type === 'history') {
-                    renderHistory(parsed.history);
-                } else if (parsed.type === 'order') {
-                    showToast(parsed.message || '✅ Заказ оформлен!', 'success');
-                    loadData();
-                } else if (parsed.type === 'error') {
-                    showToast(parsed.message || '❌ Ошибка!', 'error');
-                }
-            } catch (e) {
-                console.error('Error handling data:', e);
-            }
-        };
+        // ============================================
+        // ОБРАБОТКА ДАННЫХ
+        // ============================================
         
-        // Обновление UI
+        function handleData(data) {
+            console.log('📦 Data received:', data);
+            
+            if (data.type === 'data') {
+                updateUI(data);
+            } else if (data.type === 'history') {
+                renderHistory(data.history);
+            } else if (data.type === 'order') {
+                showToast(data.message, 'success');
+                loadData();
+            } else if (data.type === 'error') {
+                showToast(data.message, 'error');
+            }
+        }
+        
+        // ============================================
+        // ОБНОВЛЕНИЕ UI
+        // ============================================
+        
         function updateUI(data) {
-            // Обновляем баланс
+            // Баланс
             if (data.spins) {
-                document.getElementById('balanceAmount').textContent = data.spins.paid + data.spins.free;
-                document.getElementById('paidSpins').textContent = data.spins.paid;
-                document.getElementById('freeSpins').textContent = data.spins.free;
+                const total = (data.spins.paid || 0) + (data.spins.free || 0);
+                document.getElementById('balanceAmount').textContent = total;
+                document.getElementById('paidSpins').textContent = data.spins.paid || 0;
+                document.getElementById('freeSpins').textContent = data.spins.free || 0;
             }
             
-            // Обновляем товары
+            // Товары
             if (data.products) {
                 renderProducts(data.products);
             }
@@ -482,28 +725,29 @@
             }
         }
         
-        // Рендер товаров
+        // ============================================
+        // РЕНДЕР ТОВАРОВ
+        // ============================================
+        
         function renderProducts(products) {
             const container = document.getElementById('productsContainer');
             
             if (!products || products.length === 0) {
-                container.innerHTML = `
-                    <div class="empty">
-                        📦 Товаров пока нет
-                    </div>
-                `;
+                container.innerHTML = `<div class="empty">✦ No products available</div>`;
                 return;
             }
             
             let html = '';
-            products.forEach(product => {
+            products.forEach(p => {
                 html += `
                     <div class="product-card">
-                        <div class="name">${product.name}</div>
-                        <div class="price">💰 ${product.price} руб.</div>
-                        <div class="desc">${product.desc || ''}</div>
-                        <button class="buy-btn" onclick="buyProduct(${product.id}, '${product.name}', ${product.price})">
-                            🛒 Купить
+                        <div class="top">
+                            <div class="name">${p.name}</div>
+                            <div class="price">${p.price}<span class="currency"> ₽</span></div>
+                        </div>
+                        <div class="desc">${p.desc || ''}</div>
+                        <button class="buy-btn" onclick="buyProduct(${p.id}, '${p.name}', ${p.price})">
+                            <span class="emoji">◈</span> Purchase
                         </button>
                     </div>
                 `;
@@ -512,16 +756,15 @@
             container.innerHTML = html;
         }
         
-        // Рендер истории
+        // ============================================
+        // РЕНДЕР ИСТОРИИ
+        // ============================================
+        
         function renderHistory(history) {
             const container = document.getElementById('historyContainer');
             
             if (!history || history.length === 0) {
-                container.innerHTML = `
-                    <div class="empty">
-                        📜 История пуста
-                    </div>
-                `;
+                container.innerHTML = `<div class="empty">◈ History is empty</div>`;
                 return;
             }
             
@@ -530,7 +773,7 @@
                 html += `
                     <div class="history-item">
                         <div class="info">
-                            <div class="product">${item.product || 'Товар'}</div>
+                            <div class="product">${item.product || 'Product'}</div>
                             <div class="date">${item.date || ''}</div>
                         </div>
                         <div class="price">${item.price} ₽</div>
@@ -541,18 +784,22 @@
             container.innerHTML = html;
         }
         
-        // Покупка товара
+        // ============================================
+        // ПОКУПКА
+        // ============================================
+        
         function buyProduct(id, name, price) {
             const balance = parseInt(document.getElementById('balanceAmount').textContent);
             const minSpins = 10;
             
             if (balance < minSpins) {
-                showToast(`❌ Недостаточно спинов! Нужно: ${minSpins}, у вас: ${balance}`, 'error');
+                showToast(`Not enough spins! Need: ${minSpins}, you have: ${balance}`, 'error');
                 return;
             }
             
-            if (confirm(`Подтвердите покупку:\n\n📦 ${name}\n💰 ${price} руб.\n🎰 Спинов: ${balance}`)) {
-                // Отправляем запрос в бот
+            if (confirm(`Confirm purchase:\n\n${name}\n💰 ${price} ₽`)) {
+                console.log(`🛒 Buying: ${name} (ID: ${id})`);
+                
                 if (tg) {
                     tg.sendData(JSON.stringify({
                         action: 'buy',
@@ -561,19 +808,21 @@
                         price: price
                     }));
                 } else {
-                    // Для тестирования
-                    showToast('✅ Заказ оформлен! (тест)', 'success');
+                    showToast('✓ Order placed! (mock)', 'success');
                     loadMockData();
                 }
             }
         }
         
-        // Копирование реферальной ссылки
+        // ============================================
+        // КОПИРОВАНИЕ РЕФЕРАЛЬНОЙ ССЫЛКИ
+        // ============================================
+        
         function copyReferral() {
             const link = document.getElementById('referralLink').textContent;
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(link).then(() => {
-                    showToast('✅ Ссылка скопирована!', 'success');
+                    showToast('✓ Link copied!', 'success');
                 });
             } else {
                 const textarea = document.createElement('textarea');
@@ -582,11 +831,14 @@
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
-                showToast('✅ Ссылка скопирована!', 'success');
+                showToast('✓ Link copied!', 'success');
             }
         }
         
-        // Toast уведомления
+        // ============================================
+        // TOAST УВЕДОМЛЕНИЯ
+        // ============================================
+        
         function showToast(message, type = 'info') {
             const existing = document.querySelector('.toast');
             if (existing) existing.remove();
@@ -598,46 +850,37 @@
             
             setTimeout(() => {
                 toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.3s ease';
+                toast.style.transform = 'translateX(-50%) translateY(20px) scale(0.95)';
+                toast.style.transition = 'all 0.3s ease';
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
         
-        // Мок данные для тестирования в браузере
+        // ============================================
+        // МОК ДАННЫЕ ДЛЯ ТЕСТИРОВАНИЯ
+        // ============================================
+        
         function loadMockData() {
-            const mockData = {
+            const data = {
                 type: 'data',
                 products: [
-                    { id: 1, name: '🍼 Пробник', price: 250, desc: '13 ГБ детского питания. Отличный вариант для знакомства.' },
-                    { id: 2, name: '🍱 4 ТБ детского', price: 499, desc: 'Большой набор детского питания высокого качества. 4 ТБ контента.' }
+                    { id: 1, name: '✦ Premium Pack', price: 250, desc: '13 GB premium content. Perfect for starters.' },
+                    { id: 2, name: '✦ Ultimate Pack', price: 499, desc: '4 TB premium collection. Best value.' }
                 ],
                 spins: { paid: 5, free: 10 },
                 referral_link: 'https://t.me/genrimagaz_bot?start=ref_123456'
             };
-            updateUI(mockData);
-            
-            // Мок история
-            setTimeout(() => {
-                renderHistory([
-                    { product: '🍼 Пробник', price: 250, date: '2024-01-15 14:30' },
-                    { product: '🎰 Спины (10 шт.)', price: 50, date: '2024-01-14 12:00' }
-                ]);
-            }, 500);
+            updateUI(data);
         }
         
-        // Обработка ответа от бота через Telegram WebApp
-        if (window.Telegram && window.Telegram.WebApp) {
-            Telegram.WebApp.onEvent('message', function(event) {
-                try {
-                    const data = JSON.parse(event.data);
-                    window.handleWebAppData(data);
-                } catch (e) {
-                    console.error('Error parsing message:', e);
-                }
-            });
+        function loadMockHistory() {
+            renderHistory([
+                { product: '✦ Premium Pack', price: 250, date: '2024-01-15 14:30' },
+                { product: '✦ Spins (10 pcs)', price: 50, date: '2024-01-14 12:00' }
+            ]);
         }
         
-        console.log('✅ Genie Store WebApp загружен!');
+        console.log('✦ Genie Store ready');
     </script>
 </body>
 </html>
